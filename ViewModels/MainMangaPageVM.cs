@@ -15,6 +15,8 @@ namespace ReadMangaApp.ViewModels
         private readonly MainWindow _mainWindow;
         private readonly DBConnection _dbConnection;
         private List<Manga> _allMangas;
+        private Dictionary<int, string> _collectionsByManga = new Dictionary<int, string>();
+
         private ObservableCollection<Publisher> _publisher;
         public ObservableCollection<Publisher> Publishers
         {
@@ -72,14 +74,59 @@ namespace ReadMangaApp.ViewModels
 
             LoadAllMangaData();
 
+            LoadCollectionsForMangas();
+            UpdateMangasCollections();
+
             _mangas = new ObservableCollection<Manga>(_allMangas);
+
             ReadMangaCommand = new RelayCommand<Manga>(manga => ReadManga(manga));
             SortMangaCommand = new RelayCommand<object>(_ => SortManga());
             CancelFiltersCommnad = new RelayCommand<object>(_ => CancelFilters());
+
             _genres = new ObservableCollection<Genre>(GenreRepository.GetAllGenre(_dbConnection) ?? new List<Genre>());
             _tegs = new ObservableCollection<Teg>(TegRepository.GetAllTegs(_dbConnection) ?? new List<Teg>());
             _publisher = new ObservableCollection<Publisher>(PublisherRepository.GetAllPublisher(_dbConnection) ?? new List<Publisher>());
+
+            // Подписка на смену пользователя, чтобы обновлять коллекции динамически
+            UserSession.Instance.UserChanged += (s, user) =>
+            {
+                LoadCollectionsForMangas();
+                UpdateMangasCollections();
+                RefreshMangasObservableCollection();
+            };
         }
+        private void RefreshMangasObservableCollection()
+        {
+            Mangas.Clear();
+            foreach (var manga in _allMangas)
+            {
+                Mangas.Add(manga);
+            }
+        }
+
+        private void LoadCollectionsForMangas()
+        {
+            var user = UserSession.Instance.CurrentUser;
+            if (user != null)
+            {
+                _collectionsByManga = MangaCollectionRepository.GetAllCollectionByManga(_dbConnection, user.Id);
+            }
+            else
+            {
+                _collectionsByManga = new Dictionary<int, string>();
+            }
+        }
+        private void UpdateMangasCollections()
+        {
+            foreach (var manga in _allMangas)
+            {
+                if (_collectionsByManga.TryGetValue(manga.Id, out var collectionTitle))
+                    manga.Collection = collectionTitle;
+                else
+                    manga.Collection = null;
+            }
+        }
+
         private void LoadAllMangaData()
         {
             // 1. Получаем все манги

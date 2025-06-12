@@ -143,7 +143,7 @@ namespace ReadMangaApp.ViewModels
                 int collectionId = SelectedCollection.Id; // Берём ID для использования в репозитории
                 int userId = UserSession.Instance.CurrentUser.Id; // Получаем ID текущего пользователя
 
-                string? result = CollectionRepository.UpdateMangasCollection(_dbConnection, userId, mangaId, collectionId);
+                string? result = MangaCollectionRepository.UpdateMangasCollection(_dbConnection, userId, mangaId, collectionId);
 
                 // Обработка результата
                 if (result == "added")
@@ -193,7 +193,7 @@ namespace ReadMangaApp.ViewModels
                 return;
             }
             var user = UserSession.Instance.CurrentUser;
-            var collectionsList = CollectionRepository.GetAllCollectionsByUser(_dbConnection, user.Id, user);
+            var collectionsList = MangaCollectionRepository.GetAllCollectionsByUser(_dbConnection, user.Id, user);
             Collections = new ObservableCollection<MangaCollection>(collectionsList);
         }
 

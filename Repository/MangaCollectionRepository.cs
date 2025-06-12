@@ -6,8 +6,31 @@ using System.Data;
 
 namespace ReadMangaApp.Repository
 {
-    class CollectionRepository
+    class MangaCollectionRepository
     {
+        public static Dictionary<int, string> GetAllCollectionByManga(DBConnection dbConnection, int userId)
+        {
+            var collectionByManga = new Dictionary<int, string>();
+            string query = @"SELECT mc.id_manga, c.title
+                     FROM MangaCollection mc
+                     JOIN Collection c ON mc.id_collection = c.id_collection
+                     WHERE mc.id_user = @UserId";
+
+            var parameters = new NpgsqlParameter[]
+            {
+        new NpgsqlParameter("@UserId", userId)
+            };
+
+            DataTable dataTable = dbConnection.ExecuteReader(query, parameters);
+            foreach (DataRow row in dataTable.Rows)
+            {
+                int mangaId = (int)row["id_manga"];
+                string collectionTitle = (string)row["title"];
+                collectionByManga[mangaId] = collectionTitle;
+            }
+            return collectionByManga;
+        }
+
         // получение списка коллекций для пользователя
         public static List<MangaCollection> GetAllCollectionsByUser(DBConnection dBConnection, int userId, User user)
         {

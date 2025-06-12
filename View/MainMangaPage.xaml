@@ -28,20 +28,42 @@
                                         CommandParameter="{Binding}" Background="Transparent" BorderBrush="Transparent" Margin="0" Padding="0">
                                         <Grid>
                                             <Image MaxWidth="180" MaxHeight="240" Source="{Binding CoverUrl}" Stretch="Fill"/>
-                                            <Border BorderThickness="1" CornerRadius="5" Margin="3" 
-                                                Background="{Binding RatingBackground}"
-                                                Padding="5" 
-                                                HorizontalAlignment="Right" VerticalAlignment="Top" 
-                                                Width="40" Height="25">
-                                                <TextBlock Text="{Binding MangaScores.AverageScore, StringFormat={}{0:F1}}" FontSize="14" 
-                                                    TextWrapping="Wrap" Foreground="White" FontWeight="Bold" 
-                                                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                            </Border>
+                                            <WrapPanel>
+                                                <Border BorderThickness="1" CornerRadius="5" Margin="3" 
+                                                    Background="{Binding RatingBackground}"
+                                                    Padding="5" 
+                                                    HorizontalAlignment="Right" VerticalAlignment="Top" 
+                                                    Width="40" Height="25">     
+                                                    <TextBlock Text="{Binding MangaScores.AverageScore, StringFormat={}{0:F1}}" FontSize="14" 
+                                                        TextWrapping="Wrap" Foreground="White" FontWeight="Bold" 
+                                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                                <Border BorderThickness="1" CornerRadius="5" Margin="3" 
+                                                    Background="Gray"
+                                                    Padding="5,2" 
+                                                    HorizontalAlignment="Right" VerticalAlignment="Center" 
+                                                    Width="Auto" Height="25">   
+                                                    <Border.Style>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Collection}" Value="">
+                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Collection}" Value="{x:Null}">
+                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                    <TextBlock Text="{Binding Collection}" FontSize="14" Margin="0,0,0,0" TextWrapping="Wrap" Foreground="White"/>
+                                                </Border>
+
+                                            </WrapPanel>
                                         </Grid>
                                     </Button>
                                     <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="16" TextWrapping="NoWrap" MaxWidth="290" TextTrimming="CharacterEllipsis"/>
                                     <TextBlock Text="{Binding TypeManga.Name}" FontSize="14" Margin="0,2,0,10" TextWrapping="Wrap"/>
-                                    <TextBlock Text="{Binding MangaScores.AverageScore}" FontSize="44" Margin="0,2,0,10" TextWrapping="Wrap"/>
                                 </StackPanel>
                             </Border>
                         </DataTemplate>

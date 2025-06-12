@@ -24,6 +24,7 @@ namespace ReadMangaApp.Models
         private List<Publisher> _publisher;
         private TypeManga _type;
         private MangaScores _score;
+        public string? Collection { get; set; } // null, если нет коллекции
 
         public Manga(int id, string name, int datePublished, string coverUrl, StatusReleased statusReleased, StatusTranslation statusTranslation, TypeManga type, string? author, string? description, string? alternativeTitle)
         {

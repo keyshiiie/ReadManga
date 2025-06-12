@@ -48,3 +48,4 @@ C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\View\Chapt
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\View\ChaptersPage.baml
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\View\MangaInfoPage.g.cs
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\View\MangaInfoPage.baml
+C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\ReadMangaApp.sourcelink.json
