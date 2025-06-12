@@ -84,22 +84,9 @@
               "RelativeDocumentMoniker": "Repository\\MangaCollectionRepository.cs",
               "ToolTip": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\Repository\\MangaCollectionRepository.cs",
               "RelativeToolTip": "Repository\\MangaCollectionRepository.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAAABcAAAAsAAAAAAAAAA==",
+              "ViewState": "AgIAABIAAAAAAAAAAAAmwB4AAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-12T16:21:18.115Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MainMangaPageVM.cs",
-              "DocumentMoniker": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\ViewModels\\MainMangaPageVM.cs",
-              "RelativeDocumentMoniker": "ViewModels\\MainMangaPageVM.cs",
-              "ToolTip": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\ViewModels\\MainMangaPageVM.cs",
-              "RelativeToolTip": "ViewModels\\MainMangaPageVM.cs",
-              "ViewState": "AgIAAFUAAAAAAAAAAAAAAGkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-12T16:21:09.558Z",
               "EditorCaption": ""
             },
             {
@@ -116,6 +103,19 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainMangaPageVM.cs",
+              "DocumentMoniker": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\ViewModels\\MainMangaPageVM.cs",
+              "RelativeDocumentMoniker": "ViewModels\\MainMangaPageVM.cs",
+              "ToolTip": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\ViewModels\\MainMangaPageVM.cs",
+              "RelativeToolTip": "ViewModels\\MainMangaPageVM.cs",
+              "ViewState": "AgIAAEwAAAAAAAAAAAAAAGkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-12T16:21:09.558Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 7,
               "Title": "DBConnection.cs",
               "DocumentMoniker": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\DataAccess\\DBConnection.cs",
@@ -124,8 +124,7 @@
               "RelativeToolTip": "DataAccess\\DBConnection.cs",
               "ViewState": "AgIAABsAAAAAAAAAAAAuwDgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-12T16:43:14.494Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-12T16:43:14.494Z"
             },
             {
               "$type": "Document",
@@ -137,8 +136,7 @@
               "RelativeToolTip": "Models\\Manga.cs",
               "ViewState": "AgIAAAsAAAAAAAAAAAAAwBoAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-12T16:40:37.425Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-12T16:40:37.425Z"
             },
             {
               "$type": "Document",
@@ -150,8 +148,7 @@
               "RelativeToolTip": "Models\\User.cs",
               "ViewState": "AgIAAB4AAAAAAAAAAAAiwDgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-12T16:40:06.946Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-12T16:40:06.946Z"
             },
             {
               "$type": "Document",
@@ -163,8 +160,7 @@
               "RelativeToolTip": "Models\\UserSession.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-12T16:40:02.594Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-12T16:40:02.594Z"
             },
             {
               "$type": "Document",
@@ -176,8 +172,7 @@
               "RelativeToolTip": "ViewModels\\MangaDetailPageVM.cs",
               "ViewState": "AgIAAKkAAAAAAAAAAAAqwMcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-12T16:38:11.978Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-12T16:38:11.978Z"
             },
             {
               "$type": "Document",
@@ -188,8 +183,7 @@
               "ToolTip": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\MainWindow.xaml",
               "RelativeToolTip": "MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-12T08:30:44.921Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-12T08:30:44.921Z"
             }
           ]
         },
