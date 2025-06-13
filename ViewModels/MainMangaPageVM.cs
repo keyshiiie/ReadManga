@@ -2,6 +2,7 @@
 using ReadMangaApp.DataAccess;
 using ReadMangaApp.Models;
 using ReadMangaApp.Repository;
+using ReadMangaApp.Services;
 using ReadMangaApp.View;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -12,7 +13,7 @@ namespace ReadMangaApp.ViewModels
 {
     public class MainMangaPageVM : ViewModelBase
     {
-        private readonly MainWindow _mainWindow;
+        private readonly INavigationService _navigationService;
         private readonly DBConnection _dbConnection;
         private List<Manga> _allMangas;
 
@@ -78,9 +79,9 @@ namespace ReadMangaApp.ViewModels
         public ICommand SortMangaCommand { get; }
         public ICommand CancelFiltersCommand { get; }
 
-        public MainMangaPageVM(MainMangaPage mainMangaPage, MainWindow mainWindow, DBConnection dbConnection)
+        public MainMangaPageVM(INavigationService navigationService, MainMangaPage mainMangaPage, DBConnection dbConnection)
         {
-            _mainWindow = mainWindow;
+            _navigationService = navigationService;
             _dbConnection = dbConnection;
             _allMangas = new List<Manga>();
 
@@ -310,19 +311,13 @@ namespace ReadMangaApp.ViewModels
         // открытие страницы с детальной информацией
         private void ReadManga(Manga selectedManga)
         {
-            try
+            if (selectedManga == null)
             {
-                if (selectedManga == null)
-                {
-                    throw new ArgumentNullException(nameof(selectedManga), "Выберите мангу для чтения.");
-                }
-                var mangaDetailPage = new MangaDetailPage(selectedManga, selectedManga.Genres, selectedManga.Tegs, selectedManga.MangaScores, selectedManga.Publishers, _mainWindow);
-                _mainWindow.MainContent.Navigate(mangaDetailPage);
+                MessageBox.Show("Выберите мангу для чтения.");
+                return;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка при открытии манги: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            _navigationService.NavigateTo("MangaDetailPage", selectedManga);
         }
+
     }
 }

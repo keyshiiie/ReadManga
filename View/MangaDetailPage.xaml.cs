@@ -12,15 +12,10 @@ namespace ReadMangaApp.View
     /// </summary>
     public partial class MangaDetailPage
     {
-        private MainWindow _mainWindow;
-        public MangaDetailPage(Manga selectedManga, List<Genre> genres, List<Teg> tegs, MangaScores? mangaScores, List<Publisher> publishers, MainWindow mainWindow)
+        public MangaDetailPage(Manga selectedManga, List<Genre> genres, List<Teg> tegs, MangaScores? mangaScores, List<Publisher> publishers, MainWindow mainWindow, DBConnection dbConnection)
         {
             InitializeComponent();
-            _mainWindow = mainWindow;
-            // Извлечение строки подключения из конфигурации
-            string connectionString = ConfigurationManager.ConnectionStrings["PostgresConnection"].ConnectionString;
-            var dbConnection = new DBConnection(connectionString);
-            DataContext = new MangaDetailPageVM(this, selectedManga, genres, tegs, mangaScores, publishers, _mainWindow, dbConnection);
+            DataContext = new MangaDetailPageVM(this, selectedManga, genres, tegs, mangaScores, publishers, mainWindow, dbConnection);
             LoadInitialPage();
         }
 

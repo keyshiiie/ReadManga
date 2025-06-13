@@ -2,6 +2,7 @@
 using ReadMangaApp;
 using ReadMangaApp.DataAccess;
 using ReadMangaApp.Models;
+using ReadMangaApp.Services;
 using ReadMangaApp.View;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -12,38 +13,44 @@ namespace AdminPartRM.ViewModels
 {
     internal class MainWindowVM : INotifyPropertyChanged
     {
-        private readonly MainWindow _mainWindow;
+        private readonly INavigationService _navigationService;
         private readonly DBConnection _dbConnection;
-        private LoginWindow? _loginWindow;
 
         public ICommand ToggleMenuCommand { get; }
-        
         public ICommand OpenMangaWindowCommand { get; }
         public ICommand LoginOrLogoutCommand { get; }
         public ICommand OpenProfileCommand { get; }
+
         public string LoginButtonText => UserSession.Instance.CurrentUser != null ? "Выйти" : "Войти";
 
-        public MainWindowVM(MainWindow mainWindow, DBConnection dbConnection)
+        // Здесь нужно убрать зависимость от MainWindow, поэтому Popup меню лучше управлять через событие или через сервис (см. ниже)
+        public event Action<bool>? ToggleMenuRequested;
+
+        private readonly IDialogService _dialogService;
+
+        public MainWindowVM(INavigationService navigationService, DBConnection dbConnection, IDialogService dialogService)
         {
-            _mainWindow = mainWindow;
+            _navigationService = navigationService;
             _dbConnection = dbConnection;
+            _dialogService = dialogService;
+
             ToggleMenuCommand = new RelayCommand<object>(_ => ToggleMenu());
             OpenMangaWindowCommand = new RelayCommand<object>(_ => OpenMangaPage());
             LoginOrLogoutCommand = new RelayCommand<object>(_ => LoginOrLogout());
-            OpenProfileCommand = new RelayCommand<object>(_ => OpenProfile()); 
+            OpenProfileCommand = new RelayCommand<object>(_ => OpenProfile());
+
             UserSession.Instance.UserChanged += (s, e) => OnPropertyChanged(nameof(LoginButtonText));
         }
 
         private void ToggleMenu()
         {
-            // Переключаем состояние Popup меню
-            _mainWindow.MenuPopup.IsOpen = !_mainWindow.MenuPopup.IsOpen;
+            // Вместо прямого обращения к Popup — вызываем событие, чтобы View могла открыть/закрыть меню
+            ToggleMenuRequested?.Invoke(true); // или передавайте нужное состояние
         }
 
         private void OpenMangaPage()
         {
-            var mangaPage = new MainMangaPage(_mainWindow);
-            _mainWindow.MainContent.Content = mangaPage;
+            _navigationService.NavigateTo("MainMangaPage");
             ToggleMenu();
         }
 
@@ -51,28 +58,14 @@ namespace AdminPartRM.ViewModels
         {
             if (UserSession.Instance.CurrentUser == null)
             {
-                // Открываем окно авторизации
-                if (_loginWindow == null)
-                {
-                    _loginWindow = new LoginWindow();
-                    _loginWindow.Closed += (s, e) => _loginWindow = null;
-                    _loginWindow.ShowDialog();
-                }
+                _dialogService.ShowLoginDialog();
             }
             else
             {
-                // Выход из аккаунта
                 UserSession.Instance.Logout();
-
-                // Если открыта страница профиля — закрываем её
-                if (_mainWindow.MainContent.Content is ProfilePage)
-                {
-                    _mainWindow.MainContent.Content = new MainMangaPage(_mainWindow);
-                    // или, например, _mainWindow.MainContent.Content = new HomePage();
-                }
+                _navigationService.NavigateTo("MainMangaPage");
             }
         }
-
 
         private void OpenProfile()
         {
@@ -82,18 +75,14 @@ namespace AdminPartRM.ViewModels
             }
             else
             {
-                var profilePage = new ProfilePage(_mainWindow);
-                _mainWindow.MainContent.Content = profilePage;
+                _navigationService.NavigateTo("ProfilePage");
                 ToggleMenu();
             }
         }
 
-
+        // Реализация INotifyPropertyChanged
         public event PropertyChangedEventHandler? PropertyChanged;
-
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

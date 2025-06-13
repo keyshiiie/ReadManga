@@ -1,4 +1,5 @@
 ﻿using ReadMangaApp.DataAccess;
+using ReadMangaApp.Services;
 using ReadMangaApp.ViewModels;
 using System.Configuration;
 using System.Windows;
@@ -12,17 +13,14 @@ namespace ReadMangaApp.View
     /// </summary>
     public partial class MainMangaPage : Page
     {
-        private MainWindow _mainWindow;
-        public MainMangaPage(MainWindow mainWindow)
+        private readonly INavigationService _navigationService;
+        private readonly DBConnection _dbConnection;
+        public MainMangaPage(INavigationService navigationService, DBConnection dbConnection)
         {
             InitializeComponent();
-            _mainWindow = mainWindow;
-
-            string connectionString = ConfigurationManager.ConnectionStrings["PostgresConnection"].ConnectionString;
-            var dbConnection = new DBConnection(connectionString);
-
-            // Передаем все необходимые параметры в MainMangaPageVM
-            DataContext = new MainMangaPageVM(this, _mainWindow, dbConnection);
+            _navigationService = navigationService;
+            _dbConnection = dbConnection;
+            DataContext = new MainMangaPageVM(_navigationService, this, _dbConnection);
         }
 
         // много мороки с тем чтобы вынести это в VM проще всего реализовать это тут

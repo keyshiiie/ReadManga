@@ -23,7 +23,7 @@ namespace ReadMangaApp.View
     /// </summary>
     public partial class ProfilePage : Page
     {
-        public ProfilePage(MainWindow _mainWindow)
+        public ProfilePage()
         {
             InitializeComponent();
             string connectionString = ConfigurationManager.ConnectionStrings["PostgresConnection"].ConnectionString;

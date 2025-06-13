@@ -4,23 +4,47 @@ using ReadMangaApp.View;
 using System.Configuration;
 using System.Windows.Controls.Primitives;
 using System.Windows;
+using ReadMangaApp.Services;
+using ReadMangaApp.Models;
 
 namespace ReadMangaApp
 {
     public partial class MainWindow
     {
+        private readonly FrameNavigationService _navigationService;
+        private readonly DialogService _dialogService;
         public MainWindow()
         {
             InitializeComponent();
             string connectionString = ConfigurationManager.ConnectionStrings["PostgresConnection"].ConnectionString;
-            var dbConnection = new DBConnection(connectionString);// Создаем экземпляр DBConnection 
-            DataContext = new MainWindowVM(this, dbConnection);
-            LoadInitialPage();
-        }
+            var dbConnection = new DBConnection(connectionString);
+            _dialogService = new DialogService();
+            _navigationService = new FrameNavigationService(MainContent);
+            _navigationService.Configure("MainMangaPage", () => new MainMangaPage(_navigationService, dbConnection));
+            _navigationService.Configure("ProfilePage", () => new ProfilePage());
+            _navigationService.Configure("MangaDetailPage", param =>
+            {
+                if (param is Manga manga)
+                {
+                    return new MangaDetailPage(
+                        manga,
+                        manga.Genres,
+                        manga.Tegs,
+                        manga.MangaScores,
+                        manga.Publishers,
+                        this,
+                        dbConnection
+                    );
+                }
+                throw new ArgumentException("Invalid parameter for MangaDetailPage");
+            });
 
-        private void LoadInitialPage()
-        {
-            MainContent.Navigate(new MainMangaPage(this)); // Передаем this — текущий MainWindow
+            var vm = new MainWindowVM(_navigationService, dbConnection, _dialogService);
+            DataContext = vm;
+
+            vm.ToggleMenuRequested += (open) => MenuPopup.IsOpen = !MenuPopup.IsOpen;
+
+            _navigationService.NavigateTo("MainMangaPage");
         }
     }
 }
