@@ -10,14 +10,15 @@ using System.Windows.Input;
 
 namespace ReadMangaApp.ViewModels
 {
-    public class MainMangaPageVM
+    public class MainMangaPageVM : ViewModelBase
     {
         private readonly MainWindow _mainWindow;
         private readonly DBConnection _dbConnection;
         private List<Manga> _allMangas;
+
         private Dictionary<int, string> _collectionsByManga = new Dictionary<int, string>();
 
-        private ObservableCollection<Publisher> _publisher;
+        private ObservableCollection<Publisher> _publisher = new ObservableCollection<Publisher>();
         public ObservableCollection<Publisher> Publishers
         {
             get => _publisher;
@@ -30,7 +31,8 @@ namespace ReadMangaApp.ViewModels
                 }
             }
         }
-        private ObservableCollection<Teg> _tegs;
+
+        private ObservableCollection<Teg> _tegs = new ObservableCollection<Teg>();
         public ObservableCollection<Teg> Tegs
         {
             get => _tegs;
@@ -43,7 +45,8 @@ namespace ReadMangaApp.ViewModels
                 }
             }
         }
-        private ObservableCollection<Genre> _genres;
+
+        private ObservableCollection<Genre> _genres = new ObservableCollection<Genre>();
         public ObservableCollection<Genre> Genres
         {
             get => _genres;
@@ -56,15 +59,24 @@ namespace ReadMangaApp.ViewModels
                 }
             }
         }
+
         private ObservableCollection<Manga> _mangas;
         public ObservableCollection<Manga> Mangas
         {
             get => _mangas;
-            private set { _mangas = value; }
+            private set 
+            { 
+                if(_mangas != value)
+                {
+                    _mangas = value;
+                    OnPropertyChanged(nameof(Mangas));
+                }
+            }
         }
+
         public ICommand ReadMangaCommand { get; }
         public ICommand SortMangaCommand { get; }
-        public ICommand CancelFiltersCommnad { get; }
+        public ICommand CancelFiltersCommand { get; }
 
         public MainMangaPageVM(MainMangaPage mainMangaPage, MainWindow mainWindow, DBConnection dbConnection)
         {
@@ -73,7 +85,6 @@ namespace ReadMangaApp.ViewModels
             _allMangas = new List<Manga>();
 
             LoadAllMangaData();
-
             LoadCollectionsForMangas();
             UpdateMangasCollections();
 
@@ -81,11 +92,11 @@ namespace ReadMangaApp.ViewModels
 
             ReadMangaCommand = new RelayCommand<Manga>(manga => ReadManga(manga));
             SortMangaCommand = new RelayCommand<object>(_ => SortManga());
-            CancelFiltersCommnad = new RelayCommand<object>(_ => CancelFilters());
+            CancelFiltersCommand = new RelayCommand<object>(_ => CancelFilters());
 
-            _genres = new ObservableCollection<Genre>(GenreRepository.GetAllGenre(_dbConnection) ?? new List<Genre>());
-            _tegs = new ObservableCollection<Teg>(TegRepository.GetAllTegs(_dbConnection) ?? new List<Teg>());
-            _publisher = new ObservableCollection<Publisher>(PublisherRepository.GetAllPublisher(_dbConnection) ?? new List<Publisher>());
+            LoadGenres();
+            LoadTegs();
+            LoadPublishers();
 
             // Подписка на смену пользователя, чтобы обновлять коллекции динамически
             UserSession.Instance.UserChanged += (s, user) =>
@@ -95,112 +106,223 @@ namespace ReadMangaApp.ViewModels
                 RefreshMangasObservableCollection();
             };
         }
+        // загрузка жанров для сортировки
+        private void LoadGenres()
+        {
+            try
+            {
+                var genresFromDb = GenreRepository.GetAllGenre(_dbConnection) ?? new List<Genre>();
+                _genres.Clear();
+                foreach (var genre in genresFromDb)
+                {
+                    _genres.Add(genre);
+                }
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine($"Ошибка при загрузке жанров: {ex.Message}");
+            }
+        }
+        // загрузка тегов для сортировки
+        private void LoadTegs()
+        {
+            try
+            {
+                var tegsFromDb = TegRepository.GetAllTegs(_dbConnection) ?? new List<Teg>();
+                _tegs.Clear();
+                foreach (var teg in tegsFromDb)
+                {
+                    _tegs.Add(teg);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при загрузке тегов: {ex.Message}");
+            }
+            
+        }
+
+        // загрузка издательств для сортировки
+        private void LoadPublishers()
+        {
+            try
+            {
+                var publishersFromDb = PublisherRepository.GetAllPublisher(_dbConnection) ?? new List<Publisher>();
+                _publisher.Clear();
+                foreach (var publisher in publishersFromDb)
+                {
+                    _publisher.Add(publisher);
+                }
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine($"Ошибка при загрузке издательств: {ex.Message}");
+            }
+        }
+        // обновление каталога манги
         private void RefreshMangasObservableCollection()
         {
-            Mangas.Clear();
-            foreach (var manga in _allMangas)
+            try
             {
-                Mangas.Add(manga);
+                Mangas.Clear();
+                foreach (var manga in _allMangas)
+                {
+                    Mangas.Add(manga);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при обновлении коллекции манги: {ex.Message}");
             }
         }
-
+        // загрузка коллекций манги
         private void LoadCollectionsForMangas()
         {
-            var user = UserSession.Instance.CurrentUser;
-            if (user != null)
+            try
             {
-                _collectionsByManga = MangaCollectionRepository.GetAllCollectionByManga(_dbConnection, user.Id);
+                var user = UserSession.Instance.CurrentUser;
+                if (user != null)
+                {
+                    _collectionsByManga = MangaCollectionRepository.GetAllCollectionByManga(_dbConnection, user.Id);
+                }
+                else
+                {
+                    _collectionsByManga = new Dictionary<int, string>();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                _collectionsByManga = new Dictionary<int, string>();
+                Console.WriteLine($"Ошибка при загрузке коллекций манги: {ex.Message}");
             }
         }
+        // обновление информации о коллекциях
         private void UpdateMangasCollections()
         {
-            foreach (var manga in _allMangas)
+            try
             {
-                if (_collectionsByManga.TryGetValue(manga.Id, out var collectionTitle))
-                    manga.Collection = collectionTitle;
-                else
-                    manga.Collection = null;
+                foreach (var manga in _allMangas)
+                {
+                    if (_collectionsByManga.TryGetValue(manga.Id, out var collectionTitle))
+                        manga.Collection = collectionTitle;
+                    else
+                        manga.Collection = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при обновлении коллекций манги: {ex.Message}");
             }
         }
-
+        // загрузка данных на страницу
         private void LoadAllMangaData()
         {
-            // 1. Получаем все манги
-            var mangas = MangaRepository.GetAllManga(_dbConnection);
-            // 2. Получаем все жанры по манге
-            var genresByManga = GenreRepository.GetAllGenresByAllManga(_dbConnection);
-            // 3. Получаем все теги по манге
-            var tegsByManga = TegRepository.GetAllTegsByAllManga(_dbConnection);
-            // 4. Получаем все средние оценки по манге
-            var scoresByManga = MangaScoreRepository.GetAllAverageScores(_dbConnection);
-            // 5. Присваиваем данные каждой манге
-            foreach (var manga in mangas)
+            try
             {
-                manga.Genres = genresByManga.TryGetValue(manga.Id, out var genres) ? genres : new List<Genre>();
-                manga.Tegs = tegsByManga.TryGetValue(manga.Id, out var tegs) ? tegs : new List<Teg>();
-                manga.MangaScores = new MangaScores(manga.Id, scoresByManga.TryGetValue(manga.Id, out var score) ? score : 0);
+                // 1. Получаем все манги
+                var mangas = MangaRepository.GetAllManga(_dbConnection);
+                // 2. Получаем все жанры по манге
+                var genresByManga = GenreRepository.GetAllGenresByAllManga(_dbConnection);
+                // 3. Получаем все теги по манге
+                var tegsByManga = TegRepository.GetAllTegsByAllManga(_dbConnection);
+                // 4. Получаем все средние оценки по манге
+                var scoresByManga = MangaScoreRepository.GetAllAverageScores(_dbConnection);
+                // 5. Получаем все издательства по манге
+                var publishersByManga = PublisherRepository.GetAllPublishersByAllManga(_dbConnection);
+                // 6. Присваиваем данные каждой манге
+                foreach (var manga in mangas)
+                {
+                    manga.Genres = genresByManga.TryGetValue(manga.Id, out var genres) ? genres : new List<Genre>();
+                    manga.Tegs = tegsByManga.TryGetValue(manga.Id, out var tegs) ? tegs : new List<Teg>();
+                    manga.MangaScores = new MangaScores(manga.Id, scoresByManga.TryGetValue(manga.Id, out var score) ? score : 0);
+                    manga.Publishers = publishersByManga.TryGetValue(manga.Id, out var publishers) ? publishers : new List<Publisher>();
+                }
+                _allMangas = mangas;
             }
-            _allMangas = mangas;
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при загрузке данных: {ex.Message}");
+            }
         }
+        // обработка выбранных пользователем фильтров
         private void SortManga()
         {
-            var selectedGenres = Genres.Where(g => g.IsSelected).Select(g => g.Id).ToList();
-            var selectedTegs = Tegs.Where(t => t.IsSelected).Select(t => t.Id).ToList();
-            var selectedPublishers = Publishers.Where(p => p.IsSelected).Select(p => p.Id).ToList();
-            FilterMangas(selectedGenres, selectedTegs, selectedPublishers);
+            try
+            {
+                var selectedGenres = Genres.Where(g => g.IsSelected).Select(g => g.Id).ToList();
+                var selectedTegs = Tegs.Where(t => t.IsSelected).Select(t => t.Id).ToList();
+                var selectedPublishers = Publishers.Where(p => p.IsSelected).Select(p => p.Id).ToList();
+                FilterMangas(selectedGenres, selectedTegs, selectedPublishers);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при выборе фильтров: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
-        private void ReadManga(Manga selectedManga)
-        {
-            // Передаем всю информацию о манге, включая жанры, теги и средние оценки
-            var mangaDetailPage = new MangaDetailPage(selectedManga, selectedManga.Genres, selectedManga.Tegs, selectedManga.MangaScores, _mainWindow);
-            _mainWindow.MainContent.Navigate(mangaDetailPage);
-        }
+        // фильтрация манги
         public void FilterMangas(List<int> selectedGenres, List<int> selectedTegs, List<int> selectedPublishers)
         {
-            var filtered = _allMangas.Where(manga =>
-            (selectedGenres.Count == 0 || manga.Genres.Any(genre => selectedGenres.Contains(genre.Id))) &&
-            (selectedTegs.Count == 0 || manga.Tegs.Any(teg => selectedTegs.Contains(teg.Id))) &&
-            (selectedPublishers.Count == 0 || manga.Tegs.Any(publisher => selectedPublishers.Contains(publisher.Id)))
-            ).ToList();
-            Mangas.Clear();
-            foreach (var manga in filtered)
+            try
             {
-                Mangas.Add(manga);
+                var filtered = _allMangas.Where(manga =>
+                    (selectedGenres.Count == 0 || manga.Genres.Any(genre => selectedGenres.Contains(genre.Id))) &&
+                    (selectedTegs.Count == 0 || manga.Tegs.Any(teg => selectedTegs.Contains(teg.Id))) &&
+                    (selectedPublishers.Count == 0 || manga.Publishers.Any(publisher => selectedPublishers.Contains(publisher.Id)))
+                ).ToList();
+                Mangas.Clear();
+                foreach (var manga in filtered)
+                {
+                    Mangas.Add(manga);
+                }
+                if (Mangas.Count == 0)
+                {
+                    MessageBox.Show("Манга по данному запросу не найдена.", "Результат сортировки", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
             }
-            if (Mangas.Count == 0)
+            catch (Exception ex)
             {
-                MessageBox.Show("Манга по данному запросу не найдена.", "Результат сортировки", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"Ошибка при фильтрации манги: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
+        // удаление выбранных фильтров
         public void CancelFilters()
         {
-            foreach (var genre in Genres)
+            try
             {
-                genre.IsSelected = false;
+                foreach (var genre in Genres)
+                {
+                    genre.IsSelected = false;
+                }
+                foreach (var teg in Tegs)
+                {
+                    teg.IsSelected = false;
+                }
+                foreach (var publisher in Publishers)
+                {
+                    publisher.IsSelected = false;
+                }
+                FilterMangas(new List<int>(), new List<int>(), new List<int>());
             }
-
-            foreach (var teg in Tegs)
+            catch (Exception ex)
             {
-                teg.IsSelected = false;
+                MessageBox.Show($"Ошибка при сбросе фильтров: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
-            foreach (var publisher in Publishers)
-            {
-                publisher.IsSelected = false;
-            }
-            FilterMangas(new List<int>(), new List<int>(), new List<int>());
         }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName)
+        // открытие страницы с детальной информацией
+        private void ReadManga(Manga selectedManga)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            try
+            {
+                if (selectedManga == null)
+                {
+                    throw new ArgumentNullException(nameof(selectedManga), "Выберите мангу для чтения.");
+                }
+                var mangaDetailPage = new MangaDetailPage(selectedManga, selectedManga.Genres, selectedManga.Tegs, selectedManga.MangaScores, selectedManga.Publishers, _mainWindow);
+                _mainWindow.MainContent.Navigate(mangaDetailPage);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при открытии манги: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

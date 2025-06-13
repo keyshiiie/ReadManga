@@ -87,13 +87,19 @@ namespace ReadMangaApp.Models
         public List<Teg> Tegs
         {
             get => _tegs;
-            set => _tegs = value; // Теперь можно изменять и из других классов
+            set => _tegs = value;
         }
 
         public List<Genre> Genres
         {
             get => _genres;
-            set => _genres = value; // Теперь можно изменять и из других классов
+            set => _genres = value;
+        }
+
+        public List<Publisher> Publishers
+        {
+            get => _publisher;
+            set => _publisher = value;
         }
 
         public MangaScores MangaScores

@@ -106,7 +106,7 @@ namespace ReadMangaApp.ViewModels
         public ICommand OpenChaptersPageCommand { get; }
         public ICommand AddToCollectionCommand { get; }
 
-        public MangaDetailPageVM(MangaDetailPage mangaDetailPage, Manga selectedManga, List<Genre> genres, List<Teg> tegs, MangaScores? mangaScores, MainWindow mainWindow, DBConnection dbConnection)
+        public MangaDetailPageVM(MangaDetailPage mangaDetailPage, Manga selectedManga, List<Genre> genres, List<Teg> tegs, MangaScores? mangaScores, List<Publisher> publishers, MainWindow mainWindow, DBConnection dbConnection)
         {
             _mangaDetailPage = mangaDetailPage;
             _mainWindow = mainWindow;
@@ -116,7 +116,7 @@ namespace ReadMangaApp.ViewModels
             _chapters = new ObservableCollection<Chapter>();
             _genres = new ObservableCollection<Genre>(genres);
             _tegs = new ObservableCollection<Teg>(tegs);
-            _publishers = new ObservableCollection<Publisher>();
+            _publishers = new ObservableCollection<Publisher>(publishers);
             _dbConnection = dbConnection;
 
             OpenScorePageCommand = new RelayCommand<object>(_ => ScoreManga());
@@ -125,7 +125,6 @@ namespace ReadMangaApp.ViewModels
             AddToCollectionCommand = new RelayCommand<object>(_ => AddMangaToCollection());
 
             LoadChapters();
-            LoadPublishers();
 
             // Подписка на событие изменения пользователя
             UserSession.Instance.UserChanged += OnUserChanged;
@@ -232,15 +231,6 @@ namespace ReadMangaApp.ViewModels
         {
             var allChapters = GetChaptersFromDatabase(); // Получаем главы из базы данных
             Chapters = new ObservableCollection<Chapter>(allChapters); // Обновляем коллекцию глав
-        }
-        private void LoadPublishers()
-        {
-            var allPublisher = GetPublisherFromDatabase();
-            Publishers = new ObservableCollection<Publisher>(allPublisher);
-        }
-        private List<Publisher> GetPublisherFromDatabase()
-        {
-            return PublisherRepository.GetAllPublisherByMangaId(_dbConnection, SelectedManga.Id);
         }
         private List<Chapter> GetChaptersFromDatabase()
         {

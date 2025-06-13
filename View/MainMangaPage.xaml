@@ -141,7 +141,7 @@
                         </StackPanel>   
                     </ScrollViewer>
                     <Button Content="Сортировать" Command="{Binding SortMangaCommand}" Grid.Row="1" Width="Auto"/>
-                    <Button Content="Очистить" Command="{Binding CancelFiltersCommnad}" Grid.Row="2" Width="Auto"/>
+                    <Button Content="Очистить" Command="{Binding CancelFiltersCommand}" Grid.Row="2" Width="Auto"/>
                 </Grid>
             </Border>
         </Grid>
