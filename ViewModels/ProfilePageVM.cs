@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace ReadMangaApp.ViewModels
 {
-    public class ProfilePageVM : INotifyPropertyChanged
+    public class ProfilePageVM : ViewModelBase
     {
         private string? _username;
         private string? _email;
@@ -49,12 +49,6 @@ namespace ReadMangaApp.ViewModels
         private void EditProfile()
         {
             // Логика редактирования профиля
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

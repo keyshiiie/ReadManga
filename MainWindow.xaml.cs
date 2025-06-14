@@ -32,7 +32,6 @@ namespace ReadMangaApp
                         manga.Tegs,
                         manga.MangaScores,
                         manga.Publishers,
-                        this,
                         dbConnection
                     );
                 }

@@ -11,16 +11,12 @@ namespace ReadMangaApp.ViewModels
 {
     internal class ChaptersPageVM
     {
-        private readonly MainWindow _mainWindow;
-        private readonly MangaDetailPage _mangaDetailPage;
         public IEnumerable<Chapter> Chapters { get; }
         public ICommand ReadPageChapterCommand { get; }
         private DBConnection _dbConnection;
-        public ChaptersPageVM(MangaDetailPage mangaDetailPage, DBConnection dBConnection, IEnumerable<Chapter> chapters, MainWindow mainWindow)
+        public ChaptersPageVM(DBConnection dBConnection, IEnumerable<Chapter> chapters)
         {
-            _mainWindow = mainWindow;
             _dbConnection = dBConnection;
-            _mangaDetailPage = mangaDetailPage;
             ReadPageChapterCommand = new RelayCommand<Chapter>(chapter => ReadChapter(chapter));
             Chapters = chapters;
         }
@@ -40,7 +36,7 @@ namespace ReadMangaApp.ViewModels
             // Если страницы есть, передаем выбранную главу и список глав в ChapterReadPage
             var chapterReadPage = new ChapterReadPage(selectedChapter, Chapters.ToList());
             // Устанавливаем содержимое Frame в MainWindow
-            _mainWindow.MainContent.Navigate(chapterReadPage);
+            // _mainWindow.MainContent.Navigate(chapterReadPage);
         }
 
         private List<MangaPage> GetPagesFromDatabase(int chapterId)

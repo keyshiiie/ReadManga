@@ -24,16 +24,12 @@ namespace ReadMangaApp.View
     /// </summary>
     public partial class ChaptersPage : Page
     {
-        private MainWindow _mainWindow;
-        private MangaDetailPage _mangaDetailPage;
-        public ChaptersPage(MainWindow mainWindow, MangaDetailPage mangaDetailPage, IEnumerable<Chapter> chapters)
+        public ChaptersPage(IEnumerable<Chapter> chapters)
         {
             InitializeComponent();
-            _mainWindow = mainWindow;
-            _mangaDetailPage = mangaDetailPage;
             string connectionString = ConfigurationManager.ConnectionStrings["PostgresConnection"].ConnectionString;
             var dbConnection = new DBConnection(connectionString);
-            DataContext = new ChaptersPageVM(_mangaDetailPage, dbConnection, chapters, mainWindow);
+            DataContext = new ChaptersPageVM(dbConnection, chapters);
         }
         private void ChapterTitle_MouseDown(object sender, MouseButtonEventArgs e)
         {

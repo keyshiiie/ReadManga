@@ -15,11 +15,9 @@ namespace ReadMangaApp.ViewModels
         public IEnumerable<Genre> Genres { get; }
         public IEnumerable<Teg> Tegs { get; }
 
-        private readonly MangaDetailPage _mangaDetailPage;
 
-        public MangaInfoPageVM(MangaDetailPage mangaDetailPage, DBConnection dBConnection, Manga selectedManga, IEnumerable<Genre> genres, IEnumerable<Teg> tegs)
+        public MangaInfoPageVM(DBConnection dBConnection, Manga selectedManga, IEnumerable<Genre> genres, IEnumerable<Teg> tegs)
         {
-            _mangaDetailPage = mangaDetailPage;
             SelectedManga = selectedManga;
             Genres = genres;
             Tegs = tegs;

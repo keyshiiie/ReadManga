@@ -7,13 +7,14 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
+using ReadMangaApp.Services;
+using ReadMangaApp.Dtos;
 
 namespace ReadMangaApp.ViewModels
 {
     public class MangaDetailPageVM : INotifyPropertyChanged
     {
-        private readonly MangaDetailPage _mangaDetailPage;
-        private readonly MainWindow _mainWindow;
+        private readonly INavigationService _navigationService;
         private RateMangaPage? _rateWindow;
         private readonly DBConnection _dbConnection; // Добавляем поле для подключения к БД
         public Manga SelectedManga { get; }
@@ -106,10 +107,9 @@ namespace ReadMangaApp.ViewModels
         public ICommand OpenChaptersPageCommand { get; }
         public ICommand AddToCollectionCommand { get; }
 
-        public MangaDetailPageVM(MangaDetailPage mangaDetailPage, Manga selectedManga, List<Genre> genres, List<Teg> tegs, MangaScores? mangaScores, List<Publisher> publishers, MainWindow mainWindow, DBConnection dbConnection)
+        public MangaDetailPageVM(INavigationService navigationService, Manga selectedManga, List<Genre> genres, List<Teg> tegs, MangaScores? mangaScores, List<Publisher> publishers, DBConnection dbConnection)
         {
-            _mangaDetailPage = mangaDetailPage;
-            _mainWindow = mainWindow;
+            _navigationService = navigationService;
             SelectedManga = selectedManga;
             MangaScores = mangaScores;
             _collections = new ObservableCollection<MangaCollection>();
@@ -200,14 +200,17 @@ namespace ReadMangaApp.ViewModels
 
         private void OpenMangaInfo()
         {
-            var mangaInfoPage = new MangaInfoPage(_mangaDetailPage, SelectedManga, Genres, Tegs);
-            _mangaDetailPage.MangaDetailContent.Navigate(mangaInfoPage);
+            var param = new MangaInfoPageParams(
+                SelectedManga,
+                Genres.ToList(),
+                Tegs.ToList()
+            );
+            _navigationService.NavigateTo("MangaInfoPage", param);
         }
 
         private void OpenChaptersPage()
         {
-            var mangaChaptersPage = new ChaptersPage(_mainWindow, _mangaDetailPage, Chapters);
-            _mangaDetailPage.MangaDetailContent.Navigate(mangaChaptersPage);
+            
         }
 
         private void ScoreManga()
