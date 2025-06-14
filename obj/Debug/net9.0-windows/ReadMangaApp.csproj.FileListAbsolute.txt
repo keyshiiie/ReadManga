@@ -42,10 +42,11 @@ C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\View\Profi
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\View\ProfilePage.baml
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\View\RegistrationWindow.g.cs
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\View\RegistrationWindow.baml
-C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\View\RateMangaPage.g.cs
-C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\View\RateMangaPage.baml
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\View\ChaptersPage.g.cs
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\View\ChaptersPage.baml
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\View\MangaInfoPage.g.cs
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\View\MangaInfoPage.baml
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\ReadMangaApp.sourcelink.json
+C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\View\RateMangaWindow.g.cs
+C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\View\RateMangaWindow.baml

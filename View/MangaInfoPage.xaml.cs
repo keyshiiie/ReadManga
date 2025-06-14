@@ -1,7 +1,6 @@
 ﻿using ReadMangaApp.DataAccess;
 using ReadMangaApp.Models;
 using ReadMangaApp.ViewModels;
-using System.Configuration;
 using System.Windows.Controls;
 
 namespace ReadMangaApp.View
@@ -11,12 +10,11 @@ namespace ReadMangaApp.View
     /// </summary>
     public partial class MangaInfoPage : Page
     {
-        public MangaInfoPage(Manga selectedManga, IEnumerable<Genre> genres, IEnumerable<Teg> tegs)
+        public MangaInfoPage(Manga selectedManga, IEnumerable<Genre> genres, IEnumerable<Teg> tegs, DBConnection dbConnection)
         {
             InitializeComponent();
-            string connectionString = ConfigurationManager.ConnectionStrings["PostgresConnection"].ConnectionString;
-            var dbConnection = new DBConnection(connectionString);
-            DataContext = new MangaInfoPageVM(dbConnection, selectedManga, genres, tegs);
+            var viewModel = new MangaInfoPageVM(dbConnection, selectedManga, genres, tegs);
+            DataContext = viewModel;
         }
     }
 }

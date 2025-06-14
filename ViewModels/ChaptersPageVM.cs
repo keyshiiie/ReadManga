@@ -1,21 +1,26 @@
-﻿using AdminPartRM.ViewModels;
-using BeautyShop.Commands;
+﻿using BeautyShop.Commands;
 using ReadMangaApp.DataAccess;
+using ReadMangaApp.Dtos;
 using ReadMangaApp.Models;
 using ReadMangaApp.Repository;
-using ReadMangaApp.View;
-using System.Windows;
+using ReadMangaApp.Services;
 using System.Windows.Input;
 
 namespace ReadMangaApp.ViewModels
 {
-    internal class ChaptersPageVM
+    internal class ChaptersPageVM : ViewModelBase
     {
+        public Action<bool>? SetFullScreenContent { get; set; }
+
+
+        private readonly INavigationService _navigationService;
+
         public IEnumerable<Chapter> Chapters { get; }
         public ICommand ReadPageChapterCommand { get; }
         private DBConnection _dbConnection;
-        public ChaptersPageVM(DBConnection dBConnection, IEnumerable<Chapter> chapters)
+        public ChaptersPageVM(INavigationService mainNavigationService, DBConnection dBConnection, IEnumerable<Chapter> chapters)
         {
+            _navigationService = mainNavigationService;
             _dbConnection = dBConnection;
             ReadPageChapterCommand = new RelayCommand<Chapter>(chapter => ReadChapter(chapter));
             Chapters = chapters;
@@ -29,14 +34,15 @@ namespace ReadMangaApp.ViewModels
             if (pages == null || !pages.Any())
             {
                 // Если страницы отсутствуют, показываем предупреждение пользователю
-                MessageBox.Show("В выбранной главе нет страниц.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                AppServices.DialogService.ShowMessage("В выбранной главе нет страниц.", "Ошибка");
                 return; // Прерываем выполнение метода, если страницы отсутствуют
             }
 
-            // Если страницы есть, передаем выбранную главу и список глав в ChapterReadPage
-            var chapterReadPage = new ChapterReadPage(selectedChapter, Chapters.ToList());
-            // Устанавливаем содержимое Frame в MainWindow
-            // _mainWindow.MainContent.Navigate(chapterReadPage);
+            var param = new ChapterReadPageParams(
+                Chapters.ToList(),
+                selectedChapter      
+            );
+            _navigationService.NavigateTo("ChapterReadPage", param);
         }
 
         private List<MangaPage> GetPagesFromDatabase(int chapterId)

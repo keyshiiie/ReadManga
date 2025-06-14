@@ -2,19 +2,19 @@
 using ReadMangaApp.DataAccess;
 using ReadMangaApp.Models;
 using ReadMangaApp.Repository;
-using ReadMangaApp.View;
-using System.ComponentModel;
-using System.Windows;
+using ReadMangaApp.Services;
 using System.Windows.Input;
 
 namespace ReadMangaApp.ViewModels
 {
-    internal class RateMangaPageVM : INotifyPropertyChanged
+    internal class RateMangaPageVM : ViewModelBase
     {
-        private RateMangaPage _rateMangaPage;
-        private readonly DBConnection _dbConnection; // Добавляем поле для подключения к БД
+        private readonly DBConnection _dbConnection; 
 
-        private int _currentScore = 1; // Измените на int
+        public event Action? RequestClose;
+
+
+        private int _currentScore = 1;
         private Manga _selectedManga;
 
         public int CurrentScore
@@ -33,13 +33,12 @@ namespace ReadMangaApp.ViewModels
         public ICommand SubmitCommand { get; }
         public ICommand CancelCommand { get; }
 
-        public RateMangaPageVM(DBConnection dbConnection, Manga selectedManga, RateMangaPage rateMangaPage)
+        public RateMangaPageVM(DBConnection dbConnection, Manga selectedManga)
         {
             _selectedManga = selectedManga;
-            _rateMangaPage = rateMangaPage;
             _dbConnection = dbConnection; // Сохраняем подключение к БД
             SubmitCommand = new RelayCommand<object>(_ => SubmitRate());
-            CancelCommand = new RelayCommand<object>(_ => { /* закрыть окно */ });
+            CancelCommand = new RelayCommand<object>(_ => RequestClose?.Invoke());
         }
 
         private void SubmitRate()
@@ -47,29 +46,12 @@ namespace ReadMangaApp.ViewModels
             var user = UserSession.Instance.CurrentUser;
             if (user == null)
             {
-                MessageBox.Show("Вы не авторизованы!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                AppServices.DialogService.ShowMessage("Вы не авторизованы!", "Ошибка");
                 return;
             }
             var result = MangaScoreRepository.UpdateScore(_dbConnection, user.Id, _selectedManga.Id, CurrentScore);
-            if (result == "added")
-            {
-                MessageBox.Show("Оценка добавлена!");
-            }
-            else if (result == "updated")
-            {
-                MessageBox.Show("Оценка обновлена!");
-            }
-            else
-            {
-                MessageBox.Show("Оценка сохранена!");
-            }
-            _rateMangaPage.Close();
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            AppServices.DialogService.ShowMessage("Оценка добавлена!");
+            RequestClose?.Invoke();
         }
     }
 }

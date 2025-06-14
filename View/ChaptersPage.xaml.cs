@@ -1,21 +1,11 @@
 ﻿using ReadMangaApp.DataAccess;
 using ReadMangaApp.Models;
+using ReadMangaApp.Services;
 using ReadMangaApp.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+using System.Data.Common;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ReadMangaApp.View
 {
@@ -24,13 +14,13 @@ namespace ReadMangaApp.View
     /// </summary>
     public partial class ChaptersPage : Page
     {
-        public ChaptersPage(IEnumerable<Chapter> chapters)
+        public ChaptersPage(INavigationService mainNavigationService, IEnumerable<Chapter> chapters, DBConnection dBConnection)
         {
             InitializeComponent();
-            string connectionString = ConfigurationManager.ConnectionStrings["PostgresConnection"].ConnectionString;
-            var dbConnection = new DBConnection(connectionString);
-            DataContext = new ChaptersPageVM(dbConnection, chapters);
+            var viewModel = new ChaptersPageVM(mainNavigationService, dBConnection, chapters);
+            DataContext = viewModel;
         }
+
         private void ChapterTitle_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (sender is TextBlock textBlock && textBlock.Tag is Chapter chapter)

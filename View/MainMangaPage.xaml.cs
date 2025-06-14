@@ -13,15 +13,11 @@ namespace ReadMangaApp.View
     public partial class MainMangaPage : Page
     {
         private readonly INavigationService _navigationService;
-        private readonly IDialogService _dialogService;
-        private readonly DBConnection _dbConnection;
-        public MainMangaPage(INavigationService navigationService, IDialogService dialogService, DBConnection dbConnection)
+        public MainMangaPage(INavigationService navigationService, DBConnection dbConnection)
         {
             InitializeComponent();
             _navigationService = navigationService;
-            _dialogService = dialogService;
-            _dbConnection = dbConnection;
-            DataContext = new MainMangaPageVM(_navigationService, _dialogService, _dbConnection);
+            DataContext = new MainMangaPageVM(_navigationService, dbConnection);
         }
 
         // много мороки с тем чтобы вынести это в VM проще всего реализовать это тут

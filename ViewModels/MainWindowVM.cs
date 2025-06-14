@@ -2,6 +2,8 @@
 using ReadMangaApp.DataAccess;
 using ReadMangaApp.Models;
 using ReadMangaApp.Services;
+using System.Data;
+using System.Data.Common;
 using System.Windows.Input;
 
 namespace AdminPartRM.ViewModels
@@ -20,17 +22,14 @@ namespace AdminPartRM.ViewModels
 
         public event Action<bool>? ToggleMenuRequested;
 
-        private readonly IDialogService _dialogService;
-
-        public MainWindowVM(INavigationService navigationService, DBConnection dbConnection, IDialogService dialogService)
+        public MainWindowVM(INavigationService navigationService, DBConnection dbConnection)
         {
             _navigationService = navigationService;
             _dbConnection = dbConnection;
-            _dialogService = dialogService;
 
             ToggleMenuCommand = new RelayCommand<object>(_ => ToggleMenu());
             OpenMangaWindowCommand = new RelayCommand<object>(_ => OpenMangaPage());
-            LoginOrLogoutCommand = new RelayCommand<object>(_ => LoginOrLogout());
+            LoginOrLogoutCommand = new RelayCommand<object>(_ => LoginOrLogout(dbConnection));
             OpenProfileCommand = new RelayCommand<object>(_ => OpenProfile());
 
             UserSession.Instance.UserChanged += (s, e) => OnPropertyChanged(nameof(LoginButtonText));
@@ -48,11 +47,11 @@ namespace AdminPartRM.ViewModels
             ToggleMenu();
         }
 
-        private void LoginOrLogout()
+        private void LoginOrLogout(DBConnection dbConnection)
         {
             if (UserSession.Instance.CurrentUser == null)
             {
-                _dialogService.ShowLoginDialog();
+                AppServices.DialogService.ShowLoginDialog(dbConnection);
             }
             else
             {
@@ -65,7 +64,7 @@ namespace AdminPartRM.ViewModels
         {
             if (UserSession.Instance.CurrentUser == null)
             {
-                _dialogService.ShowMessage("Вы не авторизованы!", "Предупреждение");
+                AppServices.DialogService.ShowMessage("Вы не авторизованы!", "Предупреждение");
             }
             else
             {

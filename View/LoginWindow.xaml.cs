@@ -11,12 +11,12 @@ namespace ReadMangaApp.View
     /// </summary>
     public partial class LoginWindow 
     {
-        public LoginWindow()
+        public LoginWindow(DBConnection dbConnection)
         {
             InitializeComponent();
-            string connectionString = ConfigurationManager.ConnectionStrings["PostgresConnection"].ConnectionString;
-            var dbConnection = new DBConnection(connectionString);
-            DataContext = new LoginWindowVM(dbConnection, this); // Передаем текущее окно
+            var viewModel = new LoginWindowVM(dbConnection);
+            viewModel.RequestClose += () => this.Close();
+            DataContext = viewModel;
         }
 
 

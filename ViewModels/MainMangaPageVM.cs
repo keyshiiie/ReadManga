@@ -11,7 +11,6 @@ namespace ReadMangaApp.ViewModels
     public class MainMangaPageVM : ViewModelBase
     {
         private readonly INavigationService _navigationService;
-        private readonly IDialogService _dialogService;
 
         private readonly DBConnection _dbConnection;
         private List<Manga> _allMangas;
@@ -78,10 +77,9 @@ namespace ReadMangaApp.ViewModels
         public ICommand SortMangaCommand { get; }
         public ICommand CancelFiltersCommand { get; }
 
-        public MainMangaPageVM(INavigationService navigationService, IDialogService dialogService, DBConnection dbConnection)
+        public MainMangaPageVM(INavigationService navigationService, DBConnection dbConnection)
         {
             _navigationService = navigationService;
-            _dialogService = dialogService;
 
             _dbConnection = dbConnection;
             _allMangas = new List<Manga>();
@@ -257,7 +255,7 @@ namespace ReadMangaApp.ViewModels
             }
             catch (Exception ex)
             {
-                _dialogService.ShowMessage($"Ошибка при выборе фильтров: {ex.Message}");
+                AppServices.DialogService.ShowMessage($"Ошибка при выборе фильтров: {ex.Message}");
             }
         }
         // фильтрация манги
@@ -277,12 +275,12 @@ namespace ReadMangaApp.ViewModels
                 }
                 if (Mangas.Count == 0)
                 {
-                    _dialogService.ShowMessage("Манга по данному запросу не найдена.");
+                    AppServices.DialogService.ShowMessage("Манга по данному запросу не найдена.");
                 }
             }
             catch (Exception ex)
             {
-                _dialogService.ShowMessage($"Ошибка при фильтрации манги: {ex.Message}");
+                AppServices.DialogService.ShowMessage($"Ошибка при фильтрации манги: {ex.Message}");
             }
         }
         // удаление выбранных фильтров
@@ -306,7 +304,7 @@ namespace ReadMangaApp.ViewModels
             }
             catch (Exception ex)
             {
-                _dialogService.ShowMessage($"Ошибка при сбросе фильтров: {ex.Message}");
+                AppServices.DialogService.ShowMessage($"Ошибка при сбросе фильтров: {ex.Message}");
             }
         }
         // открытие страницы с детальной информацией
@@ -314,7 +312,7 @@ namespace ReadMangaApp.ViewModels
         {
             if (selectedManga == null)
             {
-                _dialogService.ShowMessage("Выберите мангу для чтения.");
+                AppServices.DialogService.ShowMessage("Выберите мангу для чтения.");
                 return;
             }
             _navigationService.NavigateTo("MangaDetailPage", selectedManga);

@@ -4,15 +4,14 @@ using ReadMangaApp.Commands;
 using ReadMangaApp.DataAccess;
 using ReadMangaApp.Repository;
 using ReadMangaApp.View;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows;
 using System.Windows.Input;
+using ReadMangaApp.Services;
 
 namespace ReadMangaApp.ViewModels
 {
-    internal class LoginWindowVM : INotifyPropertyChanged
+    internal class LoginWindowVM : ViewModelBase
     {
+        public event Action? RequestClose;
         private string _username = string.Empty;
         private string _password = string.Empty;
         public ICommand LoginCommand { get; }
@@ -53,22 +52,13 @@ namespace ReadMangaApp.ViewModels
 
 
         private DBConnection _dbConnection;
-        private LoginWindow _loginWindow;
         private User? user;
 
-        public LoginWindowVM(DBConnection dbConnection, LoginWindow loginWindow) // Изменяем конструктор
+        public LoginWindowVM(DBConnection dbConnection) // Изменяем конструктор
         {
             _dbConnection = dbConnection;
-            _loginWindow = loginWindow; // Сохраняем ссылку на окно
             LoginCommand = new RelayCommand<object>(_ => Login());
             OpenRegistrationWindowCommand = new RelayCommand<object>(_ => OpenRegistrationWindow());
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public void Login()
@@ -85,7 +75,7 @@ namespace ReadMangaApp.ViewModels
 
                 // Сохраняем в сессию
                 UserSession.Instance.CurrentUser = user;
-                _loginWindow.Close();
+                RequestClose?.Invoke();
             }
             else
             {
@@ -93,17 +83,15 @@ namespace ReadMangaApp.ViewModels
             }
         }
 
-
         private void DisplayError(string message)
         {
-            MessageBox.Show(message, "Ошибка авторизации", MessageBoxButton.OK, MessageBoxImage.Error);
+            AppServices.DialogService.ShowMessage(message, "Ошибка авторизации");
         }
 
         public void OpenRegistrationWindow()
         {
             RegistrationWindow registrationWindow = new RegistrationWindow();
-            registrationWindow.Show(); // Открываем главное окно
-            _loginWindow.Close();
+            registrationWindow.Show();
         }
     }
 }

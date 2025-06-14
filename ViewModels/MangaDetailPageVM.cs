@@ -2,24 +2,20 @@
 using BeautyShop.Commands;
 using ReadMangaApp.DataAccess;
 using ReadMangaApp.Repository;
-using ReadMangaApp.View;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Windows;
 using System.Windows.Input;
 using ReadMangaApp.Services;
 using ReadMangaApp.Dtos;
 
 namespace ReadMangaApp.ViewModels
 {
-    public class MangaDetailPageVM : INotifyPropertyChanged
+    public class MangaDetailPageVM : ViewModelBase
     {
         private readonly INavigationService _navigationService;
-        private RateMangaPage? _rateWindow;
-        private readonly DBConnection _dbConnection; // Добавляем поле для подключения к БД
+        private readonly DBConnection _dbConnection;
         public Manga SelectedManga { get; }
 
-        private ObservableCollection<Publisher> _publishers;
+        private ObservableCollection<Publisher> _publishers = new ObservableCollection<Publisher>();
         public ObservableCollection<Publisher> Publishers
         {
             get => _publishers;
@@ -30,29 +26,29 @@ namespace ReadMangaApp.ViewModels
             }
         }
 
-        private ObservableCollection<Teg> _tegs;
+        private ObservableCollection<Teg> _tegs = new ObservableCollection<Teg>();
         public ObservableCollection<Teg> Tegs 
         {
             get => _tegs;
             private set
             {
                 _tegs = value;
-                OnPropertyChanged(nameof(SelectedManga));
+                OnPropertyChanged(nameof(Tegs));
             }
         }
 
-        private ObservableCollection<Genre> _genres;
+        private ObservableCollection<Genre> _genres = new ObservableCollection<Genre>();
         public ObservableCollection<Genre> Genres
         {
             get => _genres;
             private set
             {
                 _genres = value;
-                OnPropertyChanged(nameof(SelectedManga));
+                OnPropertyChanged(nameof(Genres));
             }
         }
 
-        private ObservableCollection<Chapter> _chapters;
+        private ObservableCollection<Chapter> _chapters = new ObservableCollection<Chapter>();
         public ObservableCollection<Chapter> Chapters
         {
             get => _chapters;
@@ -63,7 +59,7 @@ namespace ReadMangaApp.ViewModels
             }
         }
 
-        private ObservableCollection<MangaCollection> _collections;
+        private ObservableCollection<MangaCollection> _collections = new ObservableCollection<MangaCollection>();
         public ObservableCollection<MangaCollection> Collections
         {
             get => _collections;
@@ -112,11 +108,10 @@ namespace ReadMangaApp.ViewModels
             _navigationService = navigationService;
             SelectedManga = selectedManga;
             MangaScores = mangaScores;
-            _collections = new ObservableCollection<MangaCollection>();
-            _chapters = new ObservableCollection<Chapter>();
-            _genres = new ObservableCollection<Genre>(genres);
-            _tegs = new ObservableCollection<Teg>(tegs);
-            _publishers = new ObservableCollection<Publisher>(publishers);
+
+            Genres = new ObservableCollection<Genre>(genres);
+            Tegs = new ObservableCollection<Teg>(tegs);
+            Publishers = new ObservableCollection<Publisher>(publishers);
             _dbConnection = dbConnection;
 
             OpenScorePageCommand = new RelayCommand<object>(_ => ScoreManga());
@@ -148,28 +143,26 @@ namespace ReadMangaApp.ViewModels
                 if (result == "added")
                 {
                     string message = $"Манга '{SelectedManga.Name}' была добавлена в коллекцию '{SelectedCollection.Title}'.";
-                    MessageBox.Show(message, "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                    AppServices.DialogService.ShowMessage(message, "Успех");
                 }
                 else if (result == "updated")
                 {
                     string message = $"Манга '{SelectedManga.Name}' была обновлена в коллекции '{SelectedCollection.Title}'.";
-                    MessageBox.Show(message, "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                    AppServices.DialogService.ShowMessage(message, "Успех");
                 }
                 else
                 {
                     // Логика для обработки ошибок
-                    MessageBox.Show("Произошла ошибка при добавлении манги в коллекцию.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    AppServices.DialogService.ShowMessage("Произошла ошибка при добавлении манги в коллекцию.", "Ошибка");
                 }
             }
             else
             {
                 // Логика для обработки случая, когда коллекция или манга не выбраны, или пользователь не авторизован
-                MessageBox.Show("Пожалуйста, выберите коллекцию и мангу, а также убедитесь, что вы авторизованы.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                AppServices.DialogService.ShowMessage("Пожалуйста, выберите коллекцию и мангу, а также убедитесь, что вы авторизованы.", "Ошибка");
             }
         }
-
-
-
+        // Метод, реагирующий на изменение пользоватея
         private void OnUserChanged(object? sender, User? user)
         {
             if (user != null)
@@ -182,8 +175,7 @@ namespace ReadMangaApp.ViewModels
                 Collections = new ObservableCollection<MangaCollection>();
             }
         }
-
-
+        // Загрузка списка коллекций
         private void LoadCollections()
         {
             if (UserSession.Instance.CurrentUser == null)
@@ -195,9 +187,7 @@ namespace ReadMangaApp.ViewModels
             var collectionsList = MangaCollectionRepository.GetAllCollectionsByUser(_dbConnection, user.Id, user);
             Collections = new ObservableCollection<MangaCollection>(collectionsList);
         }
-
-
-
+        // Открытие страницы с информацией о манге
         private void OpenMangaInfo()
         {
             var param = new MangaInfoPageParams(
@@ -207,29 +197,27 @@ namespace ReadMangaApp.ViewModels
             );
             _navigationService.NavigateTo("MangaInfoPage", param);
         }
-
+        // Открытие страницы с списком глав манги
         private void OpenChaptersPage()
         {
-            
+            var param = new ChaptersPageParams(
+                Chapters.ToList()
+            );
+            _navigationService.NavigateTo("ChaptersPage", param);
         }
-
+        // Открытие окна для оценки манги
         private void ScoreManga()
         {
             if (UserSession.Instance.CurrentUser == null)
             {
-                MessageBox.Show("Вы не авторизованы!", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Information);
+                AppServices.DialogService.ShowMessage("Вы не авторизованы!", "Предупреждение");
             }
             else
             {
-                if (_rateWindow == null)
-                {
-                    _rateWindow = new RateMangaPage(SelectedManga);
-                    _rateWindow.Closed += (s, e) => _rateWindow = null;
-                    _rateWindow.ShowDialog();
-                }
+                AppServices.DialogService.ShowRateDialog(SelectedManga, _dbConnection);
             }
         }
-
+        // Загрузка глав манги
         private void LoadChapters()
         {
             var allChapters = GetChaptersFromDatabase(); // Получаем главы из базы данных
@@ -238,13 +226,6 @@ namespace ReadMangaApp.ViewModels
         private List<Chapter> GetChaptersFromDatabase()
         {
             return ChapterRepository.GetAllChapter(_dbConnection, SelectedManga.Id); // Получаем главы по ID манги
-        }
-        
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

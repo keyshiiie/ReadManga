@@ -2,14 +2,13 @@
 using ReadMangaApp.DataAccess;
 using ReadMangaApp.Models;
 using ReadMangaApp.Repository;
+using ReadMangaApp.Services;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Windows;
 using System.Windows.Input;
 
 namespace ReadMangaApp.ViewModels
 {
-    internal class ChapterReadPageVM : INotifyPropertyChanged
+    internal class ChapterReadPageVM : ViewModelBase
     {
         private ObservableCollection<MangaPage> _pages;
         private ObservableCollection<Chapter> _chapters;
@@ -40,8 +39,7 @@ namespace ReadMangaApp.ViewModels
                     {
                         // Если страницы не загружены, возвращаемся к предыдущей главе
                         SelectedChapter = previousChapter;
-                        // Здесь можно показать сообщение пользователю
-                        MessageBox.Show("В выбранной главе нет страниц.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        AppServices.DialogService.ShowMessage("В выбранной главе нет страниц.", "Ошибка");
                     }
                     else
                     {
@@ -65,7 +63,7 @@ namespace ReadMangaApp.ViewModels
         public MangaPage? CurrentPage => (Pages != null && _currentPageIndex >= 0 && _currentPageIndex < Pages.Count) ? Pages[_currentPageIndex] : null;
         public ICommand GoBackCommand { get; }
         public ICommand GoForwardCommand { get; }
-        public event PropertyChangedEventHandler? PropertyChanged;
+
         public ChapterReadPageVM(Chapter selectedChapter, List<Chapter> chapters, DBConnection dbConnection)
         {
             _selectedChapter = selectedChapter;
@@ -100,7 +98,7 @@ namespace ReadMangaApp.ViewModels
             catch (Exception ex)
             {
                 // Обработка исключения (например, вывести сообщение об ошибке)
-                MessageBox.Show($"Ошибка при загрузке страниц: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                AppServices.DialogService.ShowMessage($"Ошибка при загрузке страниц: {ex.Message}", "Ошибка");
                 return false; // Возвращаем false при ошибке
             }
         }
@@ -126,9 +124,6 @@ namespace ReadMangaApp.ViewModels
         }
         private bool CanGoBack() => _currentPageIndex > 0; // Проверка возможности вернуться назад
         private bool CanGoForward() => _currentPageIndex < (Pages?.Count - 1); // Проверка возможности перейти вперед
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        
     }
 }

@@ -22,7 +22,7 @@
     <Compile Update="View\ProfilePage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\RateMangaPage.xaml.cs">
+    <Compile Update="View\RateMangaWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\RegistrationWindow.xaml.cs">
@@ -57,7 +57,7 @@
     <Page Update="View\ProfilePage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\RateMangaPage.xaml">
+    <Page Update="View\RateMangaWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\RegistrationWindow.xaml">

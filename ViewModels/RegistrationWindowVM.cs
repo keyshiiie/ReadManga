@@ -1,21 +1,11 @@
 ﻿using BeautyShop.Commands;
-using ReadMangaApp.Commands;
-using ReadMangaApp.Repository;
 using ReadMangaApp.View;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows;
 using ReadMangaApp.DataAccess;
 
 namespace ReadMangaApp.ViewModels
 {
-    internal class RegistrationWindowVM : INotifyPropertyChanged
+    internal class RegistrationWindowVM : ViewModelBase
     {
         public ICommand OpenLoginWindowCommand { get; }
 
@@ -31,17 +21,7 @@ namespace ReadMangaApp.ViewModels
 
         public void OpenLoginWindow()
         {
-            LoginWindow loginWindow = new LoginWindow();
-            loginWindow.Show(); // Открываем главное окно
-            _registrationWindow.Close();
+            
         }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
     }
 }
