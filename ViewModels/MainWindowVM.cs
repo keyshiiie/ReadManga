@@ -1,17 +1,12 @@
 ﻿using BeautyShop.Commands;
-using ReadMangaApp;
 using ReadMangaApp.DataAccess;
 using ReadMangaApp.Models;
 using ReadMangaApp.Services;
-using ReadMangaApp.View;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows;
 using System.Windows.Input;
 
 namespace AdminPartRM.ViewModels
 {
-    internal class MainWindowVM : INotifyPropertyChanged
+    internal class MainWindowVM : ViewModelBase
     {
         private readonly INavigationService _navigationService;
         private readonly DBConnection _dbConnection;
@@ -23,7 +18,6 @@ namespace AdminPartRM.ViewModels
 
         public string LoginButtonText => UserSession.Instance.CurrentUser != null ? "Выйти" : "Войти";
 
-        // Здесь нужно убрать зависимость от MainWindow, поэтому Popup меню лучше управлять через событие или через сервис (см. ниже)
         public event Action<bool>? ToggleMenuRequested;
 
         private readonly IDialogService _dialogService;
@@ -45,7 +39,7 @@ namespace AdminPartRM.ViewModels
         private void ToggleMenu()
         {
             // Вместо прямого обращения к Popup — вызываем событие, чтобы View могла открыть/закрыть меню
-            ToggleMenuRequested?.Invoke(true); // или передавайте нужное состояние
+            ToggleMenuRequested?.Invoke(true);
         }
 
         private void OpenMangaPage()
@@ -71,7 +65,7 @@ namespace AdminPartRM.ViewModels
         {
             if (UserSession.Instance.CurrentUser == null)
             {
-                MessageBox.Show("Вы не авторизованы!", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Information);
+                _dialogService.ShowMessage("Вы не авторизованы!", "Предупреждение");
             }
             else
             {
@@ -79,10 +73,5 @@ namespace AdminPartRM.ViewModels
                 ToggleMenu();
             }
         }
-
-        // Реализация INotifyPropertyChanged
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

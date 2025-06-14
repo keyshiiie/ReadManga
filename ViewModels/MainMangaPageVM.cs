@@ -3,10 +3,7 @@ using ReadMangaApp.DataAccess;
 using ReadMangaApp.Models;
 using ReadMangaApp.Repository;
 using ReadMangaApp.Services;
-using ReadMangaApp.View;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Windows;
 using System.Windows.Input;
 
 namespace ReadMangaApp.ViewModels
@@ -14,6 +11,8 @@ namespace ReadMangaApp.ViewModels
     public class MainMangaPageVM : ViewModelBase
     {
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
+
         private readonly DBConnection _dbConnection;
         private List<Manga> _allMangas;
 
@@ -79,9 +78,11 @@ namespace ReadMangaApp.ViewModels
         public ICommand SortMangaCommand { get; }
         public ICommand CancelFiltersCommand { get; }
 
-        public MainMangaPageVM(INavigationService navigationService, MainMangaPage mainMangaPage, DBConnection dbConnection)
+        public MainMangaPageVM(INavigationService navigationService, IDialogService dialogService, DBConnection dbConnection)
         {
             _navigationService = navigationService;
+            _dialogService = dialogService;
+
             _dbConnection = dbConnection;
             _allMangas = new List<Manga>();
 
@@ -256,7 +257,7 @@ namespace ReadMangaApp.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при выборе фильтров: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                _dialogService.ShowMessage($"Ошибка при выборе фильтров: {ex.Message}");
             }
         }
         // фильтрация манги
@@ -276,12 +277,12 @@ namespace ReadMangaApp.ViewModels
                 }
                 if (Mangas.Count == 0)
                 {
-                    MessageBox.Show("Манга по данному запросу не найдена.", "Результат сортировки", MessageBoxButton.OK, MessageBoxImage.Information);
+                    _dialogService.ShowMessage("Манга по данному запросу не найдена.");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при фильтрации манги: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                _dialogService.ShowMessage($"Ошибка при фильтрации манги: {ex.Message}");
             }
         }
         // удаление выбранных фильтров
@@ -305,7 +306,7 @@ namespace ReadMangaApp.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при сбросе фильтров: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                _dialogService.ShowMessage($"Ошибка при сбросе фильтров: {ex.Message}");
             }
         }
         // открытие страницы с детальной информацией
@@ -313,7 +314,7 @@ namespace ReadMangaApp.ViewModels
         {
             if (selectedManga == null)
             {
-                MessageBox.Show("Выберите мангу для чтения.");
+                _dialogService.ShowMessage("Выберите мангу для чтения.");
                 return;
             }
             _navigationService.NavigateTo("MangaDetailPage", selectedManga);

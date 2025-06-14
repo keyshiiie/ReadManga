@@ -20,7 +20,7 @@ namespace ReadMangaApp
             var dbConnection = new DBConnection(connectionString);
             _dialogService = new DialogService();
             _navigationService = new FrameNavigationService(MainContent);
-            _navigationService.Configure("MainMangaPage", () => new MainMangaPage(_navigationService, dbConnection));
+            _navigationService.Configure("MainMangaPage", () => new MainMangaPage(_navigationService, _dialogService, dbConnection));
             _navigationService.Configure("ProfilePage", () => new ProfilePage());
             _navigationService.Configure("MangaDetailPage", param =>
             {
