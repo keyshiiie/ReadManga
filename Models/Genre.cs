@@ -1,36 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace ReadMangaApp.Models
 {
     public class Genre : INotifyPropertyChanged
     {
-        private int _id;
-        private string _name;
+        public int Id { get; set; }
+        public string Name { get; set; }
+
         private bool _isSelected;
-
-        public Genre(int id, string name)
-        {
-            _id = id;
-            _name = name;
-        }
-
-        public int Id
-        {
-            get => _id;
-            set => _id = value;
-        }
-
-        public string Name
-        {
-            get => _name;
-            set => _name = value;
-        }
-
         public bool IsSelected
         {
             get => _isSelected;
@@ -44,11 +21,14 @@ namespace ReadMangaApp.Models
             }
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName)
+        public Genre(int id, string name)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            Id = id;
+            Name = name;
         }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged(string propertyName) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

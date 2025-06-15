@@ -183,7 +183,7 @@ namespace ReadMangaApp.ViewModels
                 var user = UserSession.Instance.CurrentUser;
                 if (user != null)
                 {
-                    _collectionsByManga = MangaCollectionRepository.GetAllCollectionByManga(_dbConnection, user.Id);
+                    _collectionsByManga = MangaCollectionRepository.GetCollectionsByMangaForUser(_dbConnection, user.Id);
                 }
                 else
                 {
@@ -231,10 +231,11 @@ namespace ReadMangaApp.ViewModels
                 // 6. Присваиваем данные каждой манге
                 foreach (var manga in mangas)
                 {
-                    manga.Genres = genresByManga.TryGetValue(manga.Id, out var genres) ? genres : new List<Genre>();
-                    manga.Tegs = tegsByManga.TryGetValue(manga.Id, out var tegs) ? tegs : new List<Teg>();
+                    manga.Genres.AddRange(genresByManga.TryGetValue(manga.Id, out var genres) ? genres : new List<Genre>());
+                    manga.Tegs.AddRange(tegsByManga.TryGetValue(manga.Id, out var tegs) ? tegs : new List<Teg>());
                     manga.MangaScores = new MangaScores(manga.Id, scoresByManga.TryGetValue(manga.Id, out var score) ? score : 0);
-                    manga.Publishers = publishersByManga.TryGetValue(manga.Id, out var publishers) ? publishers : new List<Publisher>();
+                    manga.Publishers.AddRange(publishersByManga.TryGetValue(manga.Id, out var publishers) ? publishers : new List<Publisher>());
+
                 }
                 _allMangas = mangas;
             }

@@ -1,7 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|c:\\users\\acer\\desktop\\readmanga\\readmangaapp\\repository\\pagesrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|solutionrelative:repository\\pagesrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 320,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,6 +51,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:129:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PagesRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\Repository\\PagesRepository.cs",
+              "RelativeDocumentMoniker": "Repository\\PagesRepository.cs",
+              "ToolTip": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\Repository\\PagesRepository.cs",
+              "RelativeToolTip": "Repository\\PagesRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-15T09:20:04.929Z",
+              "EditorCaption": ""
             }
           ]
         },

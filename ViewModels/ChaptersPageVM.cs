@@ -47,7 +47,7 @@ namespace ReadMangaApp.ViewModels
 
         private List<MangaPage> GetPagesFromDatabase(int chapterId)
         {
-            return PagesRepository.GetAllPages(_dbConnection, chapterId); // Получаем страницы по ID главы
+            return PagesRepository.GetAllPagesByChapter(_dbConnection, chapterId); // Получаем страницы по ID главы
         }
     }
 }

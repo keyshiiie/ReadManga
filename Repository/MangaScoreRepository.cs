@@ -17,13 +17,19 @@ namespace ReadMangaApp.Repository
             SELECT id_manga, AVG(score) as average_score
             FROM Manga_scores
             GROUP BY id_manga";
-
-            DataTable dataTable = dbConnection.ExecuteReader(query);
-            foreach (DataRow row in dataTable.Rows)
+            try
             {
-                int mangaId = (int)row["id_manga"];
-                decimal averageScore = row["average_score"] == DBNull.Value ? 0 : Convert.ToDecimal(row["average_score"]);
-                scoresByManga[mangaId] = averageScore;
+                DataTable dataTable = dbConnection.ExecuteReader(query);
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    int mangaId = (int)row["id_manga"];
+                    decimal averageScore = row["average_score"] == DBNull.Value ? 0 : Convert.ToDecimal(row["average_score"]);
+                    scoresByManga[mangaId] = averageScore;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ошибка при получении средней оценки:", ex);
             }
             return scoresByManga;
         }

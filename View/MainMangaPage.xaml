@@ -30,7 +30,7 @@
                                             <Image MaxWidth="180" MaxHeight="240" Source="{Binding CoverUrl}" Stretch="Fill"/>
                                             <WrapPanel>
                                                 <Border BorderThickness="1" CornerRadius="5" Margin="3" 
-                                                    Background="{Binding RatingBackground}"
+                                                    Background="Gray"
                                                     Padding="5" 
                                                     HorizontalAlignment="Right" VerticalAlignment="Top" 
                                                     Width="40" Height="25">     

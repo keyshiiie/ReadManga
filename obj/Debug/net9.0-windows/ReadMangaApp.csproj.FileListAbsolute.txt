@@ -3,11 +3,9 @@ C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\bin\Debug\net9.0-windows\ReadMangaA
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\bin\Debug\net9.0-windows\ReadMangaApp.runtimeconfig.json
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\bin\Debug\net9.0-windows\ReadMangaApp.dll
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\bin\Debug\net9.0-windows\ReadMangaApp.pdb
-C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\MainWindow.g.cs
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\App.g.cs
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\ReadMangaApp_MarkupCompile.cache
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\ReadMangaApp_MarkupCompile.lref
-C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\MainWindow.baml
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\ReadMangaApp.g.resources
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\ReadMangaApp.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\ReadMangaApp.AssemblyInfoInputs.cache
@@ -47,6 +45,7 @@ C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\View\Chapt
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\View\MangaInfoPage.g.cs
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\View\MangaInfoPage.baml
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\ReadMangaApp.sourcelink.json
-C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\GeneratedInternalTypeHelper.g.cs
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\View\RateMangaWindow.g.cs
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\View\RateMangaWindow.baml
+C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\View\MainWindow.baml
+C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\View\MainWindow.g.cs

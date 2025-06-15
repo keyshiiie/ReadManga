@@ -52,5 +52,19 @@ namespace ReadMangaApp.DataAccess
                 }    
             }
         }
+        // для инсерстов и апдейдов, делитов
+        public int ExecuteNonQuery(string query, params NpgsqlParameter[] parameters)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    AddParameters(command, parameters);
+                    return command.ExecuteNonQuery();
+                }
+            }
+        }
+
     }
 }

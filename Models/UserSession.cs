@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using ReadMangaApp.Models;
-
-namespace ReadMangaApp.Models
+﻿namespace ReadMangaApp.Models
 {
     public class UserSession
     {

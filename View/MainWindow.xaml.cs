@@ -1,12 +1,11 @@
 ﻿using AdminPartRM.ViewModels;
 using ReadMangaApp.DataAccess;
-using ReadMangaApp.View;
 using System.Configuration;
 using ReadMangaApp.Services;
 using ReadMangaApp.Models;
 using ReadMangaApp.Dtos;
 
-namespace ReadMangaApp
+namespace ReadMangaApp.View
 {
     public partial class MainWindow
     {
