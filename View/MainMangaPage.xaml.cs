@@ -1,4 +1,5 @@
 ﻿using ReadMangaApp.DataAccess;
+using ReadMangaApp.Models;
 using ReadMangaApp.Services;
 using ReadMangaApp.ViewModels;
 using System.Windows;
@@ -13,14 +14,14 @@ namespace ReadMangaApp.View
     public partial class MainMangaPage : Page
     {
         private readonly INavigationService _navigationService;
-        public MainMangaPage(INavigationService navigationService, DBConnection dbConnection)
+        public MainMangaPage(INavigationService navigationService, DBConnection dbConnection, Genre? selectedGenre, Teg? selectedTeg)
         {
             InitializeComponent();
             _navigationService = navigationService;
-            DataContext = new MainMangaPageVM(_navigationService, dbConnection);
+            DataContext = new MainMangaPageVM(_navigationService, dbConnection, selectedGenre, selectedTeg);
         }
 
-        // много мороки с тем чтобы вынести это в VM проще всего реализовать это тут
+        // целесообразно обрабатывать нажатие кнопок здесь тк viewmodel не должна знать о view и управлять им
         private void GenreToggleButton_Click(object sender, RoutedEventArgs e)
         {
             var toggleButton = sender as ToggleButton;

@@ -1,5 +1,4 @@
-﻿using System.Windows.Media;
-
+﻿
 namespace ReadMangaApp.Models
 {
     public class Manga

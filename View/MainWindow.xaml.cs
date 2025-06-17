@@ -3,7 +3,6 @@ using ReadMangaApp.DataAccess;
 using System.Configuration;
 using ReadMangaApp.Services;
 using ReadMangaApp.Models;
-using ReadMangaApp.Dtos;
 
 namespace ReadMangaApp.View
 {
@@ -31,25 +30,16 @@ namespace ReadMangaApp.View
 
         private void ConfigureNavigation(DBConnection dbConnection)
         {
-            _navigationService.Configure("MainMangaPage", () => new MainMangaPage(_navigationService, dbConnection));
+            _navigationService.Configure("MainMangaPage", () => new MainMangaPage(_navigationService, dbConnection, null, null));
             _navigationService.Configure("ProfilePage", () => new ProfilePage(dbConnection));
             _navigationService.Configure("MangaDetailPage", param =>
             {
                 if (param is Manga manga)
                 {
-                    return new MangaDetailPage(
-                        manga,
-                        manga.Genres,
-                        manga.Tegs,
-                        manga.MangaScores,
-                    manga.Publishers,
-                        dbConnection,
-                        _navigationService
-                    );
+                    return new MangaDetailPage(manga, dbConnection, _navigationService);
                 }
                 throw new ArgumentException("Invalid parameter for MangaDetailPage");
             });
-
         }
     }
 }

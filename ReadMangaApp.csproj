@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Icons\bookmark.png" />
     <None Remove="Icons\star.png" />
   </ItemGroup>
 
@@ -18,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Icons\bookmark.png" />
     <Resource Include="Icons\star.png" />
   </ItemGroup>
 

@@ -17,6 +17,8 @@ namespace AdminPartRM.ViewModels
         public ICommand OpenMangaWindowCommand { get; }
         public ICommand LoginOrLogoutCommand { get; }
         public ICommand OpenProfileCommand { get; }
+        public ICommand GoBackCommand { get; }
+        public ICommand GoForwardCommand { get; }
 
         public string LoginButtonText => UserSession.Instance.CurrentUser != null ? "Выйти" : "Войти";
 
@@ -32,8 +34,21 @@ namespace AdminPartRM.ViewModels
             LoginOrLogoutCommand = new RelayCommand<object>(_ => LoginOrLogout(dbConnection));
             OpenProfileCommand = new RelayCommand<object>(_ => OpenProfile());
 
+            GoBackCommand = new RelayCommand<object>(_ => GoBack());
+            GoForwardCommand = new RelayCommand<object>(_ => GoForward());
+
             UserSession.Instance.UserChanged += (s, e) => OnPropertyChanged(nameof(LoginButtonText));
         }
+        private void GoBack()
+        {
+            _navigationService.GoBack();
+        }
+
+        private void GoForward()
+        {
+            _navigationService.GoForward();
+        }
+
 
         private void ToggleMenu()
         {

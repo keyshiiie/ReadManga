@@ -4,6 +4,7 @@ using ReadMangaApp.Models;
 using ReadMangaApp.Repository;
 using ReadMangaApp.Services;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 
 namespace ReadMangaApp.ViewModels
@@ -45,6 +46,7 @@ namespace ReadMangaApp.ViewModels
             }
         }
 
+        private List<Genre>? _cachedGenres;
         private ObservableCollection<Genre> _genres = new ObservableCollection<Genre>();
         public ObservableCollection<Genre> Genres
         {
@@ -77,7 +79,7 @@ namespace ReadMangaApp.ViewModels
         public ICommand SortMangaCommand { get; }
         public ICommand CancelFiltersCommand { get; }
 
-        public MainMangaPageVM(INavigationService navigationService, DBConnection dbConnection)
+        public MainMangaPageVM(INavigationService navigationService, DBConnection dbConnection, Genre? selectedGenre, Teg? selectedTeg)
         {
             _navigationService = navigationService;
 
@@ -98,7 +100,27 @@ namespace ReadMangaApp.ViewModels
             LoadTegs();
             LoadPublishers();
 
-            // Подписка на смену пользователя, чтобы обновлять коллекции динамически
+            // Отметить переданный жанр и применить фильтр
+            if (selectedGenre != null)
+            {
+                var genreToSelect = Genres.FirstOrDefault(g => g.Id == selectedGenre.Id);
+                if (genreToSelect != null)
+                {
+                    genreToSelect.IsSelected = true;
+                    SortManga(); // применить фильтр
+                }
+            }
+
+            if (selectedTeg != null) 
+            { 
+                var tegToSelect = Tegs.FirstOrDefault(t => t.Id == selectedTeg.Id);
+                if (tegToSelect != null) 
+                { 
+                    tegToSelect.IsSelected = true;
+                    SortManga();
+                }
+            }
+
             UserSession.Instance.UserChanged += (s, user) =>
             {
                 LoadCollectionsForMangas();
@@ -106,24 +128,38 @@ namespace ReadMangaApp.ViewModels
                 RefreshMangasObservableCollection();
             };
         }
-        // загрузка жанров для сортировки
+        // загрузка жанров для фильтрации
         private void LoadGenres()
         {
+            if (_cachedGenres != null)
+            {
+                // Если данные уже кэшированы, просто используем их
+                MessageBox.Show("Используется кэш для жанров!");
+                _genres.Clear();
+                foreach (var genre in _cachedGenres)
+                {
+                    _genres.Add(genre);
+                }
+                return;
+            }
+
             try
             {
+                MessageBox.Show("Данные были загружены из базы данных!");
                 var genresFromDb = GenreRepository.GetAllGenre(_dbConnection) ?? new List<Genre>();
+                _cachedGenres = genresFromDb; // Кэшируем данные
                 _genres.Clear();
-                foreach (var genre in genresFromDb)
+                foreach (var genre in _cachedGenres)
                 {
                     _genres.Add(genre);
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Console.WriteLine($"Ошибка при загрузке жанров: {ex.Message}");
             }
         }
-        // загрузка тегов для сортировки
+        // загрузка тегов для фильтрации
         private void LoadTegs()
         {
             try
@@ -142,7 +178,7 @@ namespace ReadMangaApp.ViewModels
             
         }
 
-        // загрузка издательств для сортировки
+        // загрузка издательств для фильтрации
         private void LoadPublishers()
         {
             try
@@ -159,7 +195,8 @@ namespace ReadMangaApp.ViewModels
                 Console.WriteLine($"Ошибка при загрузке издательств: {ex.Message}");
             }
         }
-        // обновление каталога манги
+        // Обновляет отображаемую коллекцию манги (Mangas) из _allMangas
+        // UI обновляется и показывает все манги
         private void RefreshMangasObservableCollection()
         {
             try
@@ -175,7 +212,8 @@ namespace ReadMangaApp.ViewModels
                 Console.WriteLine($"Ошибка при обновлении коллекции манги: {ex.Message}");
             }
         }
-        // загрузка коллекций манги
+        // Загружает коллекции пользователя
+        // _collectionsByManga содержит коллекции пользователя
         private void LoadCollectionsForMangas()
         {
             try
@@ -195,7 +233,8 @@ namespace ReadMangaApp.ViewModels
                 Console.WriteLine($"Ошибка при загрузке коллекций манги: {ex.Message}");
             }
         }
-        // обновление информации о коллекциях
+        // Присваивает каждой манге название коллекции пользователя (если есть)
+        // Каждая манга знает, в какой пользовательской коллекции она находится.
         private void UpdateMangasCollections()
         {
             try
@@ -213,7 +252,8 @@ namespace ReadMangaApp.ViewModels
                 Console.WriteLine($"Ошибка при обновлении коллекций манги: {ex.Message}");
             }
         }
-        // загрузка данных на страницу
+        // Загружает все манги и связанные с ними данные из базы данных
+        // _allMangas содержит полные данные по каждой манге
         private void LoadAllMangaData()
         {
             try
@@ -244,7 +284,7 @@ namespace ReadMangaApp.ViewModels
                 Console.WriteLine($"Ошибка при загрузке данных: {ex.Message}");
             }
         }
-        // обработка выбранных пользователем фильтров
+        // Обрабатывает нажатие кнопки "Соритировать" т.е собирает выбранные фильтры по id
         private void SortManga()
         {
             try
@@ -259,7 +299,7 @@ namespace ReadMangaApp.ViewModels
                 AppServices.DialogService.ShowMessage($"Ошибка при выборе фильтров: {ex.Message}");
             }
         }
-        // фильтрация манги
+        // Фильтрует _allMangas по выбранным фильтрам
         public void FilterMangas(List<int> selectedGenres, List<int> selectedTegs, List<int> selectedPublishers)
         {
             try
@@ -284,7 +324,7 @@ namespace ReadMangaApp.ViewModels
                 AppServices.DialogService.ShowMessage($"Ошибка при фильтрации манги: {ex.Message}");
             }
         }
-        // удаление выбранных фильтров
+        // Сбрасывает все фильтры
         public void CancelFilters()
         {
             try
@@ -308,7 +348,7 @@ namespace ReadMangaApp.ViewModels
                 AppServices.DialogService.ShowMessage($"Ошибка при сбросе фильтров: {ex.Message}");
             }
         }
-        // открытие страницы с детальной информацией
+        // Открывает страницу с подробной информацией о выбранной манге
         private void ReadManga(Manga selectedManga)
         {
             if (selectedManga == null)

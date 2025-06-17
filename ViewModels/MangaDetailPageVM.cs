@@ -22,7 +22,7 @@ namespace ReadMangaApp.ViewModels
             private set
             {
                 _publishers = value;
-                OnPropertyChanged(nameof(SelectedManga));
+                OnPropertyChanged(nameof(Publishers));
             }
         }
 
@@ -103,15 +103,15 @@ namespace ReadMangaApp.ViewModels
         public ICommand OpenChaptersPageCommand { get; }
         public ICommand AddToCollectionCommand { get; }
 
-        public MangaDetailPageVM(INavigationService navigationService, Manga selectedManga, List<Genre> genres, List<Teg> tegs, MangaScores? mangaScores, List<Publisher> publishers, DBConnection dbConnection)
+        public MangaDetailPageVM(INavigationService navigationService, Manga selectedManga, DBConnection dbConnection)
         {
             _navigationService = navigationService;
             SelectedManga = selectedManga;
-            MangaScores = mangaScores;
 
-            Genres = new ObservableCollection<Genre>(genres);
-            Tegs = new ObservableCollection<Teg>(tegs);
-            Publishers = new ObservableCollection<Publisher>(publishers);
+            MangaScores = selectedManga.MangaScores;
+            Genres = new ObservableCollection<Genre>(selectedManga.Genres ?? new List<Genre>());
+            Tegs = new ObservableCollection<Teg>(selectedManga.Tegs ?? new List<Teg>());
+            Publishers = new ObservableCollection<Publisher>(selectedManga.Publishers ?? new List<Publisher>());
             _dbConnection = dbConnection;
 
             OpenScorePageCommand = new RelayCommand<object>(_ => ScoreManga());
@@ -131,7 +131,12 @@ namespace ReadMangaApp.ViewModels
 
         private void AddMangaToCollection()
         {
-            if (SelectedCollection != null && SelectedManga != null && UserSession.Instance.CurrentUser != null)
+            if (SelectedCollection == null || UserSession.Instance.CurrentUser == null)
+            {
+                AppServices.DialogService.ShowMessage("Пожалуйста, выберите коллекцию и убедитесь, что вы авторизованы.", "Ошибка");
+                return;
+            }
+            else
             {
                 int mangaId = SelectedManga.Id; // Предполагается, что имеется Id у манги
                 int collectionId = SelectedCollection.Id; // Берём ID для использования в репозитории
@@ -156,11 +161,6 @@ namespace ReadMangaApp.ViewModels
                     AppServices.DialogService.ShowMessage("Произошла ошибка при добавлении манги в коллекцию.", "Ошибка");
                 }
             }
-            else
-            {
-                // Логика для обработки случая, когда коллекция или манга не выбраны, или пользователь не авторизован
-                AppServices.DialogService.ShowMessage("Пожалуйста, выберите коллекцию и мангу, а также убедитесь, что вы авторизованы.", "Ошибка");
-            }
         }
         // Метод, реагирующий на изменение пользоватея
         private void OnUserChanged(object? sender, User? user)
@@ -183,19 +183,26 @@ namespace ReadMangaApp.ViewModels
                 Collections = new ObservableCollection<MangaCollection>();
                 return;
             }
+
             var user = UserSession.Instance.CurrentUser;
             var collectionsList = MangaCollectionRepository.GetAllCollectionsByUser(_dbConnection, user.Id, user);
             Collections = new ObservableCollection<MangaCollection>(collectionsList);
+
+            // Попробуем найти коллекцию, в которой находится манга
+            if (!string.IsNullOrEmpty(SelectedManga.Collection))
+            {
+                var matchingCollection = Collections.FirstOrDefault(c => c.Title == SelectedManga.Collection);
+                if (matchingCollection != null)
+                {
+                    SelectedCollection = matchingCollection;
+                    SelectedCollectionId = matchingCollection.Id;
+                }
+            }
         }
         // Открытие страницы с информацией о манге
         private void OpenMangaInfo()
         {
-            var param = new MangaInfoPageParams(
-                SelectedManga,
-                Genres.ToList(),
-                Tegs.ToList()
-            );
-            _navigationService.NavigateTo("MangaInfoPage", param);
+            _navigationService.NavigateTo("MangaInfoPage", SelectedManga);
         }
         // Открытие страницы с списком глав манги
         private void OpenChaptersPage()

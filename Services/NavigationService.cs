@@ -12,6 +12,7 @@ namespace ReadMangaApp.Services
         void NavigateTo(string pageKey);
         void NavigateTo(string pageKey, object parameter);
         void GoBack();
+        void GoForward();
     }
 
     public class FrameNavigationService : INavigationService
@@ -58,8 +59,12 @@ namespace ReadMangaApp.Services
 
         public void GoBack()
         {
-            if (_frame.CanGoBack)
-                _frame.GoBack();
+            if (_frame.CanGoBack) _frame.GoBack();
+        }
+
+        public void GoForward()
+        {
+            if(_frame.CanGoForward) _frame.GoForward();
         }
     }
 }

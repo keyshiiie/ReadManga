@@ -15,20 +15,16 @@ namespace ReadMangaApp.View
     {
         private readonly FrameNavigationService _mainNavigationService;     // основной фрейм
         private readonly FrameNavigationService _localNavigationService;    // вложенный фрейм
-        public MangaDetailPage(Manga selectedManga, List<Genre> genres, List<Teg> tegs, MangaScores? mangaScores, List<Publisher> publishers, DBConnection dbConnection, FrameNavigationService mainNavigationService)
+        public MangaDetailPage(Manga selectedManga, DBConnection dbConnection, FrameNavigationService mainNavigationService)
         {
             InitializeComponent();
             _mainNavigationService = mainNavigationService;
             _localNavigationService = new FrameNavigationService(MangaDetailContent); // ← создаём локальный
-            DataContext = new MangaDetailPageVM(_localNavigationService, selectedManga, genres, tegs, mangaScores, publishers, dbConnection);
+            DataContext = new MangaDetailPageVM(_localNavigationService, selectedManga, dbConnection);
 
             ConfigureNavigation(dbConnection);
 
-            _localNavigationService.NavigateTo("MangaInfoPage", new MangaInfoPageParams(
-                selectedManga,
-                genres,
-                tegs
-            ));
+            _localNavigationService.NavigateTo("MangaInfoPage", selectedManga);
         }
 
         private void ConfigureNavigation(DBConnection dbConnection)
@@ -42,8 +38,8 @@ namespace ReadMangaApp.View
 
             _localNavigationService.Configure("MangaInfoPage", param =>
             {
-                if (param is MangaInfoPageParams p)
-                    return new MangaInfoPage(p.Manga, p.Genres, p.Tegs, dbConnection);
+                if (param is Manga selectedManga)
+                    return new MangaInfoPage(_mainNavigationService, selectedManga, dbConnection);
                 throw new ArgumentException("Неверные параметры для MangaInfoPage");
             });
 
@@ -53,6 +49,25 @@ namespace ReadMangaApp.View
                 if (param is ChapterReadPageParams p)
                     return new ChapterReadPage(p.chapter, p.Chapters, dbConnection);
                 throw new ArgumentException("Invalid parameter for ChapterReadPage");
+            });
+
+            // MainMangaPage
+
+            _mainNavigationService.Configure("MainMangaPage", param =>
+            {
+                if (param is Genre selectedGenre)
+                {
+                    return new MainMangaPage(_mainNavigationService, dbConnection, selectedGenre, null);
+                }
+                else if (param is Teg selectedTeg)
+                {
+                    return new MainMangaPage(_mainNavigationService, dbConnection, null, selectedTeg);
+                }
+                else if (param is null)
+                {
+                    return new MainMangaPage(_mainNavigationService, dbConnection, null, null);
+                }
+                throw new ArgumentException("Invalid parameter for MainMangaPage");
             });
         }
 
