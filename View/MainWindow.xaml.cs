@@ -1,25 +1,32 @@
-﻿using AdminPartRM.ViewModels;
-using ReadMangaApp.DataAccess;
-using System.Configuration;
-using ReadMangaApp.Services;
+﻿using ReadMangaApp.DataAccess;
 using ReadMangaApp.Models;
+using ReadMangaApp.Services;
+using ReadMangaApp.ViewModels;
+using System;
+using System.Data.Common;
+using System.Net.Http;
 
 namespace ReadMangaApp.View
 {
     public partial class MainWindow
     {
         private readonly FrameNavigationService _navigationService;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            string connectionString = ConfigurationManager.ConnectionStrings["PostgresConnection"].ConnectionString;
-            var dbConnection = new DBConnection(connectionString);
+            var httpClient = new HttpClient { BaseAddress = new Uri("https://readmangaserver.onrender.com/api/") };
+
+            // Создаем один контейнер с клиентами API
+            var apiClients = new ApiClientsBundle(httpClient);
+
             _navigationService = new FrameNavigationService(MainContent);
 
-            ConfigureNavigation(dbConnection);
+            // Передаем контейнер в конфигурацию навигации
+            ConfigureNavigation(apiClients);
 
-            var vm = new MainWindowVM(_navigationService, dbConnection);
+            var vm = new MainWindowVM(_navigationService, apiClients.MangaApiClient, apiClients.AuthApiClient);
             DataContext = vm;
 
             vm.ToggleMenuRequested += (open) => MenuPopup.IsOpen = !MenuPopup.IsOpen;
@@ -27,16 +34,17 @@ namespace ReadMangaApp.View
             _navigationService.NavigateTo("MainMangaPage");
         }
 
-
-        private void ConfigureNavigation(DBConnection dbConnection)
+        private void ConfigureNavigation(ApiClientsBundle apiClients)
         {
-            _navigationService.Configure("MainMangaPage", () => new MainMangaPage(_navigationService, dbConnection, null, null));
-            _navigationService.Configure("ProfilePage", () => new ProfilePage(dbConnection));
+            // Передаем контейнер в конструктор страницы
+            _navigationService.Configure("MainMangaPage", () => new MainMangaPage(
+                _navigationService,
+                apiClients));
             _navigationService.Configure("MangaDetailPage", param =>
             {
                 if (param is Manga manga)
                 {
-                    return new MangaDetailPage(manga, dbConnection, _navigationService);
+                    return new MangaDetailPage(manga, _navigationService, apiClients.MangaScoreApiClient, apiClients.MangaCollectionApiClient, apiClients.ChapterApiClient, apiClients.PageApiClient);
                 }
                 throw new ArgumentException("Invalid parameter for MangaDetailPage");
             });

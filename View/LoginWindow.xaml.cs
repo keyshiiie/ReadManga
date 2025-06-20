@@ -3,18 +3,19 @@ using ReadMangaApp.ViewModels;
 using System.Configuration;
 using System.Windows.Controls;
 using System.Windows;
+using System.Data.Common;
 
 namespace ReadMangaApp.View
 {
     /// <summary>
     /// Логика взаимодействия для LoginWindow.xaml
     /// </summary>
-    public partial class LoginWindow 
+    public partial class LoginWindow
     {
-        public LoginWindow(DBConnection dbConnection)
+        public LoginWindow(AuthApiClient authApiClient)
         {
             InitializeComponent();
-            var viewModel = new LoginWindowVM(dbConnection);
+            var viewModel = new LoginWindowVM(authApiClient);
             viewModel.RequestClose += () => this.Close();
             DataContext = viewModel;
         }

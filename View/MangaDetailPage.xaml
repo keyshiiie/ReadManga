@@ -30,7 +30,7 @@
                                 DisplayMemberPath="Title"
                                 SelectedValuePath="Id"
                                 SelectedValue="{Binding SelectedCollectionId, Mode=TwoWay}"
-                                DropDownOpened="CollectionsComboBox_DropDownOpened"/>   
+                                DropDownOpened="CollectionsComboBox_DropDownOpened"/>
                             <Button Command="{Binding AddToCollectionCommand}" Padding="0" Grid.Column="1">
                                 <Image Source="/Icons/bookmark.png" Width="25" Height="25"></Image>
                             </Button>

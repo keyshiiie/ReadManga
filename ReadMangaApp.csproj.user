@@ -10,7 +10,10 @@
     <Compile Update="View\ChapterReadPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\ChaptersPage.xaml.cs">
+    <Compile Update="View\LoginWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\MangaChaptersPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\MangaDetailPage.xaml.cs">
@@ -19,33 +22,27 @@
     <Compile Update="View\MangaInfoPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\ProfilePage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="View\RateMangaWindow.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="View\RegistrationWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="View\ChapterReadPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\LoginWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="View\MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\CustomStyles.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\ChapterReadPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="View\ChaptersPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="View\LoginWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="View\MainMangaPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\MangaChaptersPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\MangaDetailPage.xaml">
@@ -54,13 +51,7 @@
     <Page Update="View\MangaInfoPage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\ProfilePage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="View\RateMangaWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="View\RegistrationWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

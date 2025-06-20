@@ -3,40 +3,40 @@
   "WorkspaceRootPath": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|c:\\users\\acer\\desktop\\readmanga\\readmangaapp\\viewmodels\\mainmangapagevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|solutionrelative:viewmodels\\mainmangapagevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|c:\\users\\acer\\desktop\\readmanga\\readmangaapp\\repository\\mangascorerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|solutionrelative:repository\\mangascorerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|c:\\users\\acer\\desktop\\readmanga\\readmangaapp\\view\\mangadetailpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|solutionrelative:view\\mangadetailpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|c:\\users\\acer\\desktop\\readmanga\\readmangaapp\\view\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|solutionrelative:view\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|c:\\users\\acer\\desktop\\readmanga\\readmangaapp\\view\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|solutionrelative:view\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|c:\\users\\acer\\desktop\\readmanga\\readmangaapp\\view\\mangadetailpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|solutionrelative:view\\mangadetailpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|c:\\users\\acer\\desktop\\readmanga\\readmangaapp\\viewmodels\\mangadetailpagevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|solutionrelative:viewmodels\\mangadetailpagevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|c:\\users\\acer\\desktop\\readmanga\\readmangaapp\\view\\chapterreadpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|solutionrelative:view\\chapterreadpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|c:\\users\\acer\\desktop\\readmanga\\readmangaapp\\viewmodels\\mainwindowvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|solutionrelative:viewmodels\\mainwindowvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|c:\\users\\acer\\desktop\\readmanga\\readmangaapp\\dtos\\chapterreadpageparams.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|solutionrelative:dtos\\chapterreadpageparams.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|c:\\users\\acer\\desktop\\readmanga\\readmangaapp\\services\\navigationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|solutionrelative:services\\navigationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|c:\\users\\acer\\desktop\\readmanga\\readmangaapp\\dtos\\chapterspageparams.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|solutionrelative:dtos\\chapterspageparams.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|c:\\users\\acer\\desktop\\readmanga\\readmangaapp\\viewmodels\\chapterreadpagevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|solutionrelative:viewmodels\\chapterreadpagevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|c:\\users\\acer\\desktop\\readmanga\\readmangaapp\\viewmodels\\mangachapterspagevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|solutionrelative:viewmodels\\mangachapterspagevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|c:\\users\\acer\\desktop\\readmanga\\readmangaapp\\dataaccess\\pageapiclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|solutionrelative:dataaccess\\pageapiclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|c:\\users\\acer\\desktop\\readmanga\\readmangaapp\\view\\mangachapterspage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|solutionrelative:view\\mangachapterspage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|c:\\users\\acer\\desktop\\readmanga\\readmangaapp\\view\\chapterreadpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{6C780553-55F8-43E2-8C03-5C86056B49FA}|ReadMangaApp.csproj|solutionrelative:view\\chapterreadpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -46,7 +46,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 320,
-          "SelectedChildIndex": 14,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Bookmark",
@@ -86,112 +86,119 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ChapterReadPageVM.cs",
+              "DocumentMoniker": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\ViewModels\\ChapterReadPageVM.cs",
+              "RelativeDocumentMoniker": "ViewModels\\ChapterReadPageVM.cs",
+              "ToolTip": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\ViewModels\\ChapterReadPageVM.cs*",
+              "RelativeToolTip": "ViewModels\\ChapterReadPageVM.cs*",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAkwHwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-20T10:31:06.081Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "MangaScoreRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\Repository\\MangaScoreRepository.cs",
-              "RelativeDocumentMoniker": "Repository\\MangaScoreRepository.cs",
-              "ToolTip": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\Repository\\MangaScoreRepository.cs",
-              "RelativeToolTip": "Repository\\MangaScoreRepository.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAAowC0AAAAOAAAAAAAAAA==",
+              "Title": "ChapterReadPage.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\View\\ChapterReadPage.xaml.cs",
+              "RelativeDocumentMoniker": "View\\ChapterReadPage.xaml.cs",
+              "ToolTip": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\View\\ChapterReadPage.xaml.cs*",
+              "RelativeToolTip": "View\\ChapterReadPage.xaml.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-17T10:01:22.988Z",
+              "WhenOpened": "2025-06-20T10:31:29.04Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MangaDetailPage.xaml",
-              "DocumentMoniker": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\View\\MangaDetailPage.xaml",
-              "RelativeDocumentMoniker": "View\\MangaDetailPage.xaml",
-              "ToolTip": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\View\\MangaDetailPage.xaml",
-              "RelativeToolTip": "View\\MangaDetailPage.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-16T18:30:05.514Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "MangaDetailPageVM.cs",
-              "DocumentMoniker": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\ViewModels\\MangaDetailPageVM.cs",
-              "RelativeDocumentMoniker": "ViewModels\\MangaDetailPageVM.cs",
-              "ToolTip": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\ViewModels\\MangaDetailPageVM.cs",
-              "RelativeToolTip": "ViewModels\\MangaDetailPageVM.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAwAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-16T17:42:04.44Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "MangaDetailPage.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\View\\MangaDetailPage.xaml.cs",
-              "RelativeDocumentMoniker": "View\\MangaDetailPage.xaml.cs",
-              "ToolTip": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\View\\MangaDetailPage.xaml.cs",
-              "RelativeToolTip": "View\\MangaDetailPage.xaml.cs",
-              "ViewState": "AgIAADsAAAAAAAAAAAAQwFUAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-16T17:41:51.4Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "NavigationService.cs",
-              "DocumentMoniker": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\Services\\NavigationService.cs",
-              "RelativeDocumentMoniker": "Services\\NavigationService.cs",
-              "ToolTip": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\Services\\NavigationService.cs",
-              "RelativeToolTip": "Services\\NavigationService.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAAAUwA4AAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-16T17:34:44.066Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "MainMangaPageVM.cs",
-              "DocumentMoniker": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\ViewModels\\MainMangaPageVM.cs",
-              "RelativeDocumentMoniker": "ViewModels\\MainMangaPageVM.cs",
-              "ToolTip": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\ViewModels\\MainMangaPageVM.cs*",
-              "RelativeToolTip": "ViewModels\\MainMangaPageVM.cs*",
-              "ViewState": "AgIAAH4AAAAAAAAAAAAowJMAAABFAAAAAAAAAA==",
+              "Title": "MangaDetailPage.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\View\\MangaDetailPage.xaml.cs",
+              "RelativeDocumentMoniker": "View\\MangaDetailPage.xaml.cs",
+              "ToolTip": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\View\\MangaDetailPage.xaml.cs*",
+              "RelativeToolTip": "View\\MangaDetailPage.xaml.cs*",
+              "ViewState": "AgIAACIAAAAAAAAAAAArwDQAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-16T17:41:58.818Z",
+              "WhenOpened": "2025-06-20T10:41:55.227Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "MainWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\View\\MainWindow.xaml",
-              "RelativeDocumentMoniker": "View\\MainWindow.xaml",
-              "ToolTip": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\View\\MainWindow.xaml",
-              "RelativeToolTip": "View\\MainWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-16T17:03:40.95Z"
+              "Title": "ChaptersPageParams.cs",
+              "DocumentMoniker": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\Dtos\\ChaptersPageParams.cs",
+              "RelativeDocumentMoniker": "Dtos\\ChaptersPageParams.cs",
+              "ToolTip": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\Dtos\\ChaptersPageParams.cs",
+              "RelativeToolTip": "Dtos\\ChaptersPageParams.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-20T10:44:47.089Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ChapterReadPageParams.cs",
+              "DocumentMoniker": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\Dtos\\ChapterReadPageParams.cs",
+              "RelativeDocumentMoniker": "Dtos\\ChapterReadPageParams.cs",
+              "ToolTip": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\Dtos\\ChapterReadPageParams.cs",
+              "RelativeToolTip": "Dtos\\ChapterReadPageParams.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-20T10:35:11.174Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MangaChaptersPageVM.cs",
+              "DocumentMoniker": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\ViewModels\\MangaChaptersPageVM.cs",
+              "RelativeDocumentMoniker": "ViewModels\\MangaChaptersPageVM.cs",
+              "ToolTip": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\ViewModels\\MangaChaptersPageVM.cs",
+              "RelativeToolTip": "ViewModels\\MangaChaptersPageVM.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAkwCEAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-20T10:20:06.036Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "PageApiClient.cs",
+              "DocumentMoniker": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\DataAccess\\PageApiClient.cs",
+              "RelativeDocumentMoniker": "DataAccess\\PageApiClient.cs",
+              "ToolTip": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\DataAccess\\PageApiClient.cs",
+              "RelativeToolTip": "DataAccess\\PageApiClient.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAQwCEAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-20T11:07:24.972Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "MainWindowVM.cs",
-              "DocumentMoniker": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\ViewModels\\MainWindowVM.cs",
-              "RelativeDocumentMoniker": "ViewModels\\MainWindowVM.cs",
-              "ToolTip": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\ViewModels\\MainWindowVM.cs",
-              "RelativeToolTip": "ViewModels\\MainWindowVM.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAA0wEwAAAAAAAAAAAAAAA==",
+              "Title": "MangaChaptersPage.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\View\\MangaChaptersPage.xaml.cs",
+              "RelativeDocumentMoniker": "View\\MangaChaptersPage.xaml.cs",
+              "ToolTip": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\View\\MangaChaptersPage.xaml.cs",
+              "RelativeToolTip": "View\\MangaChaptersPage.xaml.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAjwBQAAABiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-16T17:33:23.734Z"
+              "WhenOpened": "2025-06-20T10:20:00.018Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\View\\MainWindow.xaml.cs",
-              "RelativeDocumentMoniker": "View\\MainWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\View\\MainWindow.xaml.cs",
-              "RelativeToolTip": "View\\MainWindow.xaml.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAQwCIAAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-16T17:56:55.026Z"
+              "DocumentIndex": 8,
+              "Title": "ChapterReadPage.xaml",
+              "DocumentMoniker": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\View\\ChapterReadPage.xaml",
+              "RelativeDocumentMoniker": "View\\ChapterReadPage.xaml",
+              "ToolTip": "C:\\Users\\Acer\\Desktop\\ReadManga\\ReadMangaApp\\View\\ChapterReadPage.xaml",
+              "RelativeToolTip": "View\\ChapterReadPage.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-06-20T10:30:53.392Z",
+              "EditorCaption": ""
             }
           ]
         },

@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using System.Windows;
 using ReadMangaApp.Services;
 using ReadMangaApp.Dtos;
+using System.Data.Common;
+using System.Data;
 
 namespace ReadMangaApp.View
 {
@@ -13,62 +15,45 @@ namespace ReadMangaApp.View
     /// </summary>
     public partial class MangaDetailPage
     {
+        private readonly PageApiClient _pageApiClient;
         private readonly FrameNavigationService _mainNavigationService;     // основной фрейм
         private readonly FrameNavigationService _localNavigationService;    // вложенный фрейм
-        public MangaDetailPage(Manga selectedManga, DBConnection dbConnection, FrameNavigationService mainNavigationService)
+        public MangaDetailPage(Manga selectedManga, FrameNavigationService mainNavigationService, MangaScoreApiClient mangaScoreApiClient, MangaCollectionApiClient mangaCollectionApiClient, ChapterApiClient chapterApiClient, PageApiClient pageApiClient)
         {
+            _pageApiClient = pageApiClient;
             InitializeComponent();
             _mainNavigationService = mainNavigationService;
             _localNavigationService = new FrameNavigationService(MangaDetailContent); // ← создаём локальный
-            DataContext = new MangaDetailPageVM(_localNavigationService, selectedManga, dbConnection);
+            DataContext = new MangaDetailPageVM(_localNavigationService, selectedManga, mangaScoreApiClient, mangaCollectionApiClient, chapterApiClient, pageApiClient);
 
-            ConfigureNavigation(dbConnection);
+            ConfigureNavigation();
 
             _localNavigationService.NavigateTo("MangaInfoPage", selectedManga);
         }
 
-        private void ConfigureNavigation(DBConnection dbConnection)
+        private void ConfigureNavigation()
         {
             _localNavigationService.Configure("ChaptersPage", param =>
             {
                 if (param is ChaptersPageParams p)
-                    return new ChaptersPage(_mainNavigationService, p.Chapters, dbConnection); // ← передаём основной сервис
+                    return new MangaChaptersPage(_mainNavigationService, p.Chapters, p.PageApiClient);
                 throw new ArgumentException("Неверные параметры для ChaptersPage");
             });
 
             _localNavigationService.Configure("MangaInfoPage", param =>
             {
                 if (param is Manga selectedManga)
-                    return new MangaInfoPage(_mainNavigationService, selectedManga, dbConnection);
+                    return new MangaInfoPage(_mainNavigationService, selectedManga);
                 throw new ArgumentException("Неверные параметры для MangaInfoPage");
             });
 
-            // Важно: ChapterReadPage открывается в основном фрейме
             _mainNavigationService.Configure("ChapterReadPage", param =>
             {
                 if (param is ChapterReadPageParams p)
-                    return new ChapterReadPage(p.chapter, p.Chapters, dbConnection);
+                    return new ChapterReadPage(p, _pageApiClient);  // Передаём pageApiClient в конструктор
                 throw new ArgumentException("Invalid parameter for ChapterReadPage");
             });
 
-            // MainMangaPage
-
-            _mainNavigationService.Configure("MainMangaPage", param =>
-            {
-                if (param is Genre selectedGenre)
-                {
-                    return new MainMangaPage(_mainNavigationService, dbConnection, selectedGenre, null);
-                }
-                else if (param is Teg selectedTeg)
-                {
-                    return new MainMangaPage(_mainNavigationService, dbConnection, null, selectedTeg);
-                }
-                else if (param is null)
-                {
-                    return new MainMangaPage(_mainNavigationService, dbConnection, null, null);
-                }
-                throw new ArgumentException("Invalid parameter for MainMangaPage");
-            });
         }
 
         private void CollectionsComboBox_DropDownOpened(object sender, EventArgs e)

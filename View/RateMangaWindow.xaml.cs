@@ -2,6 +2,7 @@
 using ReadMangaApp.Models;
 using ReadMangaApp.ViewModels;
 using System.Configuration;
+using System.Data;
 using System.Data.Common;
 
 namespace ReadMangaApp.View
@@ -11,10 +12,10 @@ namespace ReadMangaApp.View
     /// </summary>
     public partial class RateMangaWindow
     {
-        public RateMangaWindow(Manga selectedManga, DBConnection dBConnection)
+        public RateMangaWindow(Manga selectedManga, MangaScoreApiClient mangaScoreApiClient)
         {
             InitializeComponent();
-            var viewModel = new RateMangaPageVM(dBConnection, selectedManga);
+            var viewModel = new RateMangaWindowVM(selectedManga, mangaScoreApiClient);
             DataContext = viewModel;
             viewModel.RequestClose += () => this.Close(); // ← подписка на событие
 

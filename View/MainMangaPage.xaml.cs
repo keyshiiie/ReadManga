@@ -14,14 +14,23 @@ namespace ReadMangaApp.View
     public partial class MainMangaPage : Page
     {
         private readonly INavigationService _navigationService;
-        public MainMangaPage(INavigationService navigationService, DBConnection dbConnection, Genre? selectedGenre, Teg? selectedTeg)
+
+        public MainMangaPage(INavigationService navigationService, ApiClientsBundle apiClients)
         {
             InitializeComponent();
             _navigationService = navigationService;
-            DataContext = new MainMangaPageVM(_navigationService, dbConnection, selectedGenre, selectedTeg);
+            DataContext = new MainMangaPageVM(
+                _navigationService,
+                apiClients.MangaApiClient,
+                apiClients.PublisherApiClient,
+                apiClients.GenreApiClient,
+                apiClients.TegApiClient,
+                apiClients.MangaScoreApiClient,
+                apiClients.MangaCollectionApiClient);
         }
 
-        // целесообразно обрабатывать нажатие кнопок здесь тк viewmodel не должна знать о view и управлять им
+
+        // Целесообразно обрабатывать нажатие кнопок здесь, так как ViewModel не должна знать о View и управлять им
         private void GenreToggleButton_Click(object sender, RoutedEventArgs e)
         {
             var toggleButton = sender as ToggleButton;

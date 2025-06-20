@@ -5,6 +5,7 @@ using System.Windows.Input;
 using BeautyShop.Commands;
 using ReadMangaApp.Services;
 using System.Windows.Navigation;
+using System.Data.Common;
 
 namespace ReadMangaApp.ViewModels
 {
@@ -42,7 +43,7 @@ namespace ReadMangaApp.ViewModels
         public ICommand SortMangaGenreCommand { get; }
         public ICommand SortMangaTegCommand { get; }
 
-        public MangaInfoPageVM(INavigationService mainNavigationService, DBConnection dBConnection, Manga selectedManga)
+        public MangaInfoPageVM(INavigationService mainNavigationService, Manga selectedManga)
         {
             _navigationService = mainNavigationService;
             SelectedManga = selectedManga;

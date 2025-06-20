@@ -2,6 +2,7 @@
 using ReadMangaApp.Models;
 using ReadMangaApp.Services;
 using ReadMangaApp.ViewModels;
+using System.Data.Common;
 using System.Windows.Controls;
 
 namespace ReadMangaApp.View
@@ -11,10 +12,10 @@ namespace ReadMangaApp.View
     /// </summary>
     public partial class MangaInfoPage : Page
     {
-        public MangaInfoPage(INavigationService mainNavigationService, Manga selectedManga, DBConnection dbConnection)
+        public MangaInfoPage(INavigationService mainNavigationService, Manga selectedManga)
         {
             InitializeComponent();
-            var viewModel = new MangaInfoPageVM(mainNavigationService, dbConnection, selectedManga);
+            var viewModel = new MangaInfoPageVM(mainNavigationService, selectedManga);
             DataContext = viewModel;
         }
     }

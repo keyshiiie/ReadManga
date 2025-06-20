@@ -2,18 +2,21 @@
 using BeautyShop.Commands;
 using ReadMangaApp.Commands;
 using ReadMangaApp.DataAccess;
-using ReadMangaApp.Repository;
 using ReadMangaApp.View;
 using System.Windows.Input;
 using ReadMangaApp.Services;
+using System.Threading.Tasks;
+using System;
 
 namespace ReadMangaApp.ViewModels
 {
     internal class LoginWindowVM : ViewModelBase
     {
+        private readonly AuthApiClient _authApiClient;
         public event Action? RequestClose;
         private string _username = string.Empty;
         private string _password = string.Empty;
+
         public ICommand LoginCommand { get; }
         public ICommand OpenRegistrationWindowCommand { get; }
 
@@ -50,36 +53,39 @@ namespace ReadMangaApp.ViewModels
         }
         public string LoginButtonText => IsAuthenticated ? "Выход" : "Войти";
 
-
-        private DBConnection _dbConnection;
         private User? user;
 
-        public LoginWindowVM(DBConnection dbConnection) // Изменяем конструктор
+        public LoginWindowVM(AuthApiClient authApiClient)
         {
-            _dbConnection = dbConnection;
-            LoginCommand = new RelayCommand<object>(_ => Login());
+            _authApiClient = authApiClient;
+            LoginCommand = new RelayCommand<object>(async _ => await LoginAsync());
             OpenRegistrationWindowCommand = new RelayCommand<object>(_ => OpenRegistrationWindow());
         }
 
-        public void Login()
+        private async Task LoginAsync()
         {
-            // Получаем хеш пароля
-            string hashedPassword = PasswordHasher.HashPassword(Password);
-
-            // Получаем пользователя из репозитория
-            var users = UserRepository.AuthorizationUser(_dbConnection, Username, hashedPassword);
-
-            if (users.Any())
+            try
             {
-                user = users.First(); // Сохраняем пользователя
+                // Запрашиваем авторизацию через API
+                user = await _authApiClient.LoginAsync(Username, Password);
 
-                // Сохраняем в сессию
-                UserSession.Instance.CurrentUser = user;
-                RequestClose?.Invoke();
+                if (user != null)
+                {
+                    UserSession.Instance.CurrentUser = user;
+                    IsAuthenticated = true;
+                    RequestClose?.Invoke();
+                }
+                else
+                {
+                    // Неверный логин/пароль
+                    DisplayError("Неверный логин или пароль.");
+                    IsAuthenticated = false;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                DisplayError("Неверный логин или пароль.");
+                DisplayError($"Ошибка при попытке входа: {ex.Message}");
+                IsAuthenticated = false;
             }
         }
 
@@ -90,8 +96,7 @@ namespace ReadMangaApp.ViewModels
 
         public void OpenRegistrationWindow()
         {
-            RegistrationWindow registrationWindow = new RegistrationWindow();
-            registrationWindow.Show();
+            // Логика открытия окна регистрации
         }
     }
 }

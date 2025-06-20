@@ -5,16 +5,12 @@ namespace ReadMangaApp.Models
     public class MangaCollection : INotifyPropertyChanged
     {
         public int Id { get; set; }
-        public string Title { get; set; }
+        public required string Title { get; set; }
         private bool _isDefault;
-        public User User { get; set; }
+        public required User User { get; set; }
 
-        public MangaCollection(int id, string name, User user)
-        {
-            Id = id;
-            Title = name;
-            User = user;
-        }
+        public MangaCollection(){}
+
         public bool IsDefault
         {
             get => _isDefault;

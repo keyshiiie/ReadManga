@@ -1,4 +1,5 @@
-﻿using ReadMangaApp.Models;
+﻿using ReadMangaApp.DataAccess;
+using ReadMangaApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,13 @@ namespace ReadMangaApp.Dtos
 {
     public class ChaptersPageParams
     {
-        public List<Chapter> Chapters { get; }
+        public IEnumerable<Chapter> Chapters { get; }
+        public PageApiClient PageApiClient { get; }
 
-        public ChaptersPageParams(List<Chapter> chapters)
+        public ChaptersPageParams(IEnumerable<Chapter> chapters, PageApiClient pageApiClient)
         {
             Chapters = chapters;
+            PageApiClient = pageApiClient;
         }
     }
 }

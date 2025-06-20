@@ -1,18 +1,23 @@
 ﻿using ReadMangaApp.Models;
 using BeautyShop.Commands;
-using ReadMangaApp.DataAccess;
-using ReadMangaApp.Repository;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ReadMangaApp.Services;
 using ReadMangaApp.Dtos;
+using System.Data.Common;
+using ReadMangaApp.DataAccess;
+using System.Data;
+using System.Net.Http;
 
 namespace ReadMangaApp.ViewModels
 {
     public class MangaDetailPageVM : ViewModelBase
     {
+        private readonly PageApiClient _pageApiClient;
+        private readonly ChapterApiClient _chapterApiClient;
+        private readonly MangaCollectionApiClient _mangaCollectionApiClient;
+        private readonly MangaScoreApiClient _mangaScoreApiClient;
         private readonly INavigationService _navigationService;
-        private readonly DBConnection _dbConnection;
         public Manga SelectedManga { get; }
 
         private ObservableCollection<Publisher> _publishers = new ObservableCollection<Publisher>();
@@ -27,7 +32,7 @@ namespace ReadMangaApp.ViewModels
         }
 
         private ObservableCollection<Teg> _tegs = new ObservableCollection<Teg>();
-        public ObservableCollection<Teg> Tegs 
+        public ObservableCollection<Teg> Tegs
         {
             get => _tegs;
             private set
@@ -103,8 +108,13 @@ namespace ReadMangaApp.ViewModels
         public ICommand OpenChaptersPageCommand { get; }
         public ICommand AddToCollectionCommand { get; }
 
-        public MangaDetailPageVM(INavigationService navigationService, Manga selectedManga, DBConnection dbConnection)
+        public MangaDetailPageVM(INavigationService navigationService, Manga selectedManga, MangaScoreApiClient mangaScoreApiClient, MangaCollectionApiClient mangaCollectionApiClient, ChapterApiClient chapterApiClient, PageApiClient pageApiClient)
         {
+
+            _pageApiClient = pageApiClient;
+            _chapterApiClient = chapterApiClient;
+            _mangaCollectionApiClient = mangaCollectionApiClient;
+            _mangaScoreApiClient = mangaScoreApiClient;
             _navigationService = navigationService;
             SelectedManga = selectedManga;
 
@@ -112,54 +122,20 @@ namespace ReadMangaApp.ViewModels
             Genres = new ObservableCollection<Genre>(selectedManga.Genres ?? new List<Genre>());
             Tegs = new ObservableCollection<Teg>(selectedManga.Tegs ?? new List<Teg>());
             Publishers = new ObservableCollection<Publisher>(selectedManga.Publishers ?? new List<Publisher>());
-            _dbConnection = dbConnection;
+            
 
             OpenScorePageCommand = new RelayCommand<object>(_ => ScoreManga());
             OpenMangaInfoPageCommand = new RelayCommand<object>(_ => OpenMangaInfo());
             OpenChaptersPageCommand = new RelayCommand<object>(_ => OpenChaptersPage());
             AddToCollectionCommand = new RelayCommand<object>(_ => AddMangaToCollection());
 
-            LoadChapters();
+            LoadChapters(selectedManga);
 
             // Подписка на событие изменения пользователя
             UserSession.Instance.UserChanged += OnUserChanged;
             if (UserSession.Instance.CurrentUser != null)
             {
                 LoadCollections();
-            }
-        }
-
-        private void AddMangaToCollection()
-        {
-            if (SelectedCollection == null || UserSession.Instance.CurrentUser == null)
-            {
-                AppServices.DialogService.ShowMessage("Пожалуйста, выберите коллекцию и убедитесь, что вы авторизованы.", "Ошибка");
-                return;
-            }
-            else
-            {
-                int mangaId = SelectedManga.Id; // Предполагается, что имеется Id у манги
-                int collectionId = SelectedCollection.Id; // Берём ID для использования в репозитории
-                int userId = UserSession.Instance.CurrentUser.Id; // Получаем ID текущего пользователя
-
-                string? result = MangaCollectionRepository.UpdateMangasCollection(_dbConnection, userId, mangaId, collectionId);
-
-                // Обработка результата
-                if (result == "added")
-                {
-                    string message = $"Манга '{SelectedManga.Name}' была добавлена в коллекцию '{SelectedCollection.Title}'.";
-                    AppServices.DialogService.ShowMessage(message, "Успех");
-                }
-                else if (result == "updated")
-                {
-                    string message = $"Манга '{SelectedManga.Name}' была обновлена в коллекции '{SelectedCollection.Title}'.";
-                    AppServices.DialogService.ShowMessage(message, "Успех");
-                }
-                else
-                {
-                    // Логика для обработки ошибок
-                    AppServices.DialogService.ShowMessage("Произошла ошибка при добавлении манги в коллекцию.", "Ошибка");
-                }
             }
         }
         // Метод, реагирующий на изменение пользоватея
@@ -176,7 +152,7 @@ namespace ReadMangaApp.ViewModels
             }
         }
         // Загрузка списка коллекций
-        private void LoadCollections()
+        private async void LoadCollections()
         {
             if (UserSession.Instance.CurrentUser == null)
             {
@@ -185,10 +161,9 @@ namespace ReadMangaApp.ViewModels
             }
 
             var user = UserSession.Instance.CurrentUser;
-            var collectionsList = MangaCollectionRepository.GetAllCollectionsByUser(_dbConnection, user.Id, user);
+            var collectionsList = await _mangaCollectionApiClient.GetAllCollectionsByUserAsync(user.Id);
             Collections = new ObservableCollection<MangaCollection>(collectionsList);
 
-            // Попробуем найти коллекцию, в которой находится манга
             if (!string.IsNullOrEmpty(SelectedManga.Collection))
             {
                 var matchingCollection = Collections.FirstOrDefault(c => c.Title == SelectedManga.Collection);
@@ -199,6 +174,28 @@ namespace ReadMangaApp.ViewModels
                 }
             }
         }
+
+        private async void AddMangaToCollection()
+        {
+            if (SelectedCollection == null)
+            {
+                AppServices.DialogService.ShowMessage("Пожалуйста, выберите коллекцию.", "Информация");
+                return;
+            }
+
+            try
+            {
+                await _mangaCollectionApiClient.UpdateMangasCollectionAsync(SelectedManga.Id, SelectedCollection.Id);
+                CollectionChangedNotifier.NotifyCollectionsChanged();
+                AppServices.DialogService.ShowMessage("Манга успешно добавлена в коллекцию.", "Успех");
+            }
+            catch (Exception ex)
+            {
+                AppServices.DialogService.ShowMessage($"Ошибка при добавлении манги в коллекцию: {ex.Message}", "Ошибка");
+            }
+        }
+
+
         // Открытие страницы с информацией о манге
         private void OpenMangaInfo()
         {
@@ -208,7 +205,8 @@ namespace ReadMangaApp.ViewModels
         private void OpenChaptersPage()
         {
             var param = new ChaptersPageParams(
-                Chapters.ToList()
+                Chapters.ToList(),
+                _pageApiClient
             );
             _navigationService.NavigateTo("ChaptersPage", param);
         }
@@ -221,18 +219,26 @@ namespace ReadMangaApp.ViewModels
             }
             else
             {
-                AppServices.DialogService.ShowRateDialog(SelectedManga, _dbConnection);
+               AppServices.DialogService.ShowRateDialog(SelectedManga, _mangaScoreApiClient);
             }
         }
         // Загрузка глав манги
-        private void LoadChapters()
+        private async void LoadChapters(Manga selectedManga)
         {
-            var allChapters = GetChaptersFromDatabase(); // Получаем главы из базы данных
-            Chapters = new ObservableCollection<Chapter>(allChapters); // Обновляем коллекцию глав
-        }
-        private List<Chapter> GetChaptersFromDatabase()
-        {
-            return ChapterRepository.GetAllChapter(_dbConnection, SelectedManga.Id); // Получаем главы по ID манги
+            var chapters = await _chapterApiClient.GetAllChaptersAsync(selectedManga.Id);
+
+            if (chapters == null || !chapters.Any())
+            {
+                AppServices.DialogService.ShowMessage("У данной манги пока нет глав.", "Информация");
+                Chapters.Clear();
+                return;
+            }
+
+            Chapters.Clear();
+            foreach (var chapter in chapters)
+            {
+                Chapters.Add(chapter);
+            }
         }
     }
 }

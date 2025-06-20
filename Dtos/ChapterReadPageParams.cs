@@ -1,21 +1,20 @@
 ﻿using ReadMangaApp.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace ReadMangaApp.Dtos
 {
     public class ChapterReadPageParams
     {
-        public Chapter chapter { get; }
+        public Chapter Chapter { get; }
         public List<Chapter> Chapters { get; }
+        public List<MangaPage> Pages { get; }  // новое свойство
 
-        public ChapterReadPageParams(List<Chapter> chapters, Chapter selectedChapter)
+        public ChapterReadPageParams(List<Chapter> chapters, Chapter selectedChapter, List<MangaPage> pages)
         {
-            chapter = selectedChapter;
+            Chapter = selectedChapter;
             Chapters = chapters;
+            Pages = pages;
         }
     }
 }

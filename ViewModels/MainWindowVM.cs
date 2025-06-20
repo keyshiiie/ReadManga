@@ -6,17 +6,17 @@ using System.Data;
 using System.Data.Common;
 using System.Windows.Input;
 
-namespace AdminPartRM.ViewModels
+namespace ReadMangaApp.ViewModels
 {
     internal class MainWindowVM : ViewModelBase
     {
         private readonly INavigationService _navigationService;
-        private readonly DBConnection _dbConnection;
-
+        private readonly MangaApiClient _mangaApiClient; // Используем MangaApiClient вместо DBConnection
+        private readonly AuthApiClient _authApiClient;
         public ICommand ToggleMenuCommand { get; }
         public ICommand OpenMangaWindowCommand { get; }
-        public ICommand LoginOrLogoutCommand { get; }
         public ICommand OpenProfileCommand { get; }
+        public ICommand LoginOrLogoutCommand { get; }
         public ICommand GoBackCommand { get; }
         public ICommand GoForwardCommand { get; }
 
@@ -24,21 +24,23 @@ namespace AdminPartRM.ViewModels
 
         public event Action<bool>? ToggleMenuRequested;
 
-        public MainWindowVM(INavigationService navigationService, DBConnection dbConnection)
+        public MainWindowVM(INavigationService navigationService, MangaApiClient mangaApiClient, AuthApiClient authApiClient)
         {
+            _authApiClient = authApiClient;
             _navigationService = navigationService;
-            _dbConnection = dbConnection;
+            _mangaApiClient = mangaApiClient;
 
             ToggleMenuCommand = new RelayCommand<object>(_ => ToggleMenu());
             OpenMangaWindowCommand = new RelayCommand<object>(_ => OpenMangaPage());
-            LoginOrLogoutCommand = new RelayCommand<object>(_ => LoginOrLogout(dbConnection));
             OpenProfileCommand = new RelayCommand<object>(_ => OpenProfile());
+            LoginOrLogoutCommand = new RelayCommand<object>(_ => LoginOrLogout());
 
             GoBackCommand = new RelayCommand<object>(_ => GoBack());
             GoForwardCommand = new RelayCommand<object>(_ => GoForward());
 
             UserSession.Instance.UserChanged += (s, e) => OnPropertyChanged(nameof(LoginButtonText));
         }
+
         private void GoBack()
         {
             _navigationService.GoBack();
@@ -48,7 +50,6 @@ namespace AdminPartRM.ViewModels
         {
             _navigationService.GoForward();
         }
-
 
         private void ToggleMenu()
         {
@@ -62,11 +63,11 @@ namespace AdminPartRM.ViewModels
             ToggleMenu();
         }
 
-        private void LoginOrLogout(DBConnection dbConnection)
+        private void LoginOrLogout()
         {
             if (UserSession.Instance.CurrentUser == null)
             {
-                AppServices.DialogService.ShowLoginDialog(dbConnection);
+                AppServices.DialogService.ShowLoginDialog(_authApiClient);
             }
             else
             {

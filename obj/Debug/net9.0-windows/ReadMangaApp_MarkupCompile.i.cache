@@ -8,13 +8,13 @@ C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\obj\Debug\net9.0-windows\
 ReadMangaApp
 none
 false
-TRACE;DEBUG;NET;NET9_0;NETCOREAPP
+TRACE;DEBUG;NET;NET9_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 C:\Users\Acer\Desktop\ReadManga\ReadMangaApp\App.xaml
-11702438309
+9209890142
 
-59787686992
-206-1611672372
-Styles\CustomStyles.xaml;View\ChapterReadPage.xaml;View\ChaptersPage.xaml;View\LoginWindow.xaml;View\MainMangaPage.xaml;View\MainWindow.xaml;View\MangaDetailPage.xaml;View\MangaInfoPage.xaml;View\ProfilePage.xaml;View\RateMangaWindow.xaml;View\RegistrationWindow.xaml;
+551203569162
+207-974823869
+Styles\CustomStyles.xaml;View\ChapterReadPage.xaml;View\LoginWindow.xaml;View\MainMangaPage.xaml;View\MainWindow.xaml;View\MangaChaptersPage.xaml;View\MangaDetailPage.xaml;View\MangaInfoPage.xaml;View\RateMangaWindow.xaml;
 
-True
+False
 

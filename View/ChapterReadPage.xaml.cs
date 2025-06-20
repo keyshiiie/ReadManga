@@ -1,18 +1,20 @@
-﻿using ReadMangaApp.DataAccess;
-using ReadMangaApp.Models;
+﻿using ReadMangaApp.Dtos;
 using ReadMangaApp.ViewModels;
+using ReadMangaApp.DataAccess;  // для PageApiClient
 
 namespace ReadMangaApp.View
 {
-    /// <summary>
-    /// Логика взаимодействия для ChapterReadPage.xaml
-    /// </summary>
     public partial class ChapterReadPage
     {
-        public ChapterReadPage(Chapter selectedChapter, List<Chapter> chapters, DBConnection dbConnection)
+        private readonly PageApiClient _pageApiClient;
+
+        public ChapterReadPage(ChapterReadPageParams param, PageApiClient pageApiClient)
         {
             InitializeComponent();
-            var viewModel = new ChapterReadPageVM(selectedChapter, chapters, dbConnection);
+
+            _pageApiClient = pageApiClient;
+
+            var viewModel = new ChapterReadPageVM(param.Chapter, param.Chapters, param.Pages, _pageApiClient);
             DataContext = viewModel;
         }
     }

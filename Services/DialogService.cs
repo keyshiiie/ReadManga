@@ -8,28 +8,28 @@ namespace ReadMangaApp.Services
 {
     public interface IDialogService
     {
-        bool? ShowLoginDialog(DBConnection dbConnection);
-        bool? ShowRateDialog(Manga selectedManga, DBConnection dbConnection);
         void ShowMessage(string message, string title = "Информация");
+        bool? ShowRateDialog(Manga selectedManga, MangaScoreApiClient mangaScoreApiClient);
+        bool? ShowLoginDialog(AuthApiClient authApiClient);
     }
 
     public class DialogService : IDialogService
     {
-        public bool? ShowLoginDialog(DBConnection dbConnection)
+        public bool? ShowLoginDialog(AuthApiClient authApiClient)
         {
-            var loginWindow = new LoginWindow(dbConnection);
+            var loginWindow = new LoginWindow(authApiClient);
             return loginWindow.ShowDialog();
-        }
-
-        public bool? ShowRateDialog(Manga selectedManga, DBConnection dbConnection)
-        {
-            var rateWindow = new RateMangaWindow(selectedManga, dbConnection);
-            return rateWindow.ShowDialog();
         }
 
         public void ShowMessage(string message, string title = "Информация")
         {
             System.Windows.MessageBox.Show(message, title);
+        }
+
+        public bool? ShowRateDialog(Manga selectedManga, MangaScoreApiClient mangaScoreApiClient)
+        {
+            var rateWindow = new RateMangaWindow(selectedManga, mangaScoreApiClient);
+            return rateWindow.ShowDialog();
         }
     }
 }

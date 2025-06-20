@@ -22,18 +22,23 @@ namespace ReadMangaApp.Services
         private readonly Dictionary<string, Func<Page>> _pageFactories = new();
         private readonly Dictionary<string, Func<object, Page>> _pageFactoriesWithParam = new();
 
+        // Кэш для страниц без параметров
+        private readonly Dictionary<string, Page> _pageCache = new();
+
+        // Кэш для страниц с параметром — сложнее, можно кэшировать по ключу + параметру, если параметры повторяются
+        // Для простоты можно не кэшировать такие страницы или кэшировать только по ключу, если параметр не меняется
+        // В вашем случае MangaDetailPage зависит от параметра, поэтому лучше не кэшировать или реализовать сложнее
+
         public FrameNavigationService(Frame frame)
         {
             _frame = frame;
         }
 
-        // Регистрация страницы без параметров
         public void Configure(string key, Func<Page> factory)
         {
             _pageFactories[key] = factory;
         }
 
-        // Регистрация страницы с параметром
         public void Configure(string key, Func<object, Page> factory)
         {
             _pageFactoriesWithParam[key] = factory;
@@ -44,7 +49,12 @@ namespace ReadMangaApp.Services
             if (!_pageFactories.ContainsKey(pageKey))
                 throw new ArgumentException($"No such page: {pageKey}");
 
-            var page = _pageFactories[pageKey]();
+            if (!_pageCache.TryGetValue(pageKey, out var page))
+            {
+                page = _pageFactories[pageKey]();
+                _pageCache[pageKey] = page;
+            }
+
             _frame.Navigate(page);
         }
 
@@ -53,6 +63,7 @@ namespace ReadMangaApp.Services
             if (!_pageFactoriesWithParam.ContainsKey(pageKey))
                 throw new ArgumentException($"No such page: {pageKey}");
 
+            // Для страниц с параметром не кэшируем, чтобы не путать данные
             var page = _pageFactoriesWithParam[pageKey](parameter);
             _frame.Navigate(page);
         }
@@ -64,7 +75,8 @@ namespace ReadMangaApp.Services
 
         public void GoForward()
         {
-            if(_frame.CanGoForward) _frame.GoForward();
+            if (_frame.CanGoForward) _frame.GoForward();
         }
     }
+
 }
